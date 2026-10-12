@@ -3,15 +3,15 @@
 .contato-texto { line-height: 1.7; margin: 24px 0 32px; max-width: 46ch; }
 .contato-links { display: flex; gap: 16px; flex-wrap: wrap; }
 
-.contato-label { color: #f5f5f5; font-weight: 700; font-size: 13px; margin-bottom: 6px; }
-.contato-input { background: #060808; border: 2px solid #232a29; border-radius: 0; color: #f5f5f5; }
-.contato-input:focus { border-color: #5df0cc; }
+.contato-label { color: var(--texto); font-weight: 700; font-size: 13px; margin-bottom: 6px; }
+.contato-input { background: var(--campo); border: 2px solid var(--borda); border-radius: 0; color: var(--texto); }
+.contato-input:focus { border-color: var(--destaque); }
 .contato-isca { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
 .contato-enviar { width: 100%; justify-content: center; margin-top: 24px; font-size: 14px; cursor: pointer; }
 .contato-enviar:disabled { opacity: .6; cursor: wait; }
 .contato-aviso { min-height: 1.5em; margin: 16px 0 0; font-size: 14px; line-height: 1.5; }
-.contato-aviso.enviado { color: #5df0cc; }
-.contato-aviso.erro { color: #f0505f; }
+.contato-aviso.enviado { color: var(--destaque-forte); }
+.contato-aviso.erro { color: var(--erro); }
 
 @media (max-width: 860px) { .contato-grade { grid-template-columns: 1fr; gap: 40px; } }

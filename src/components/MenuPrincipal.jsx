@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { Container, Group, Stack, Title, Text, UnstyledButton, Kbd } from '@mantine/core'
 import './MenuPrincipal.css'
 import BannerGame from './BannerGame'
-// Troque pelos seus dados
+import useAtalhosJogo from '../hooks/useAtalhosJogo'
+import { useTema } from '../tema/contexto'
+
+const imagemPerfil_claro = '/img/perfil-claro.png'
+const imagemPerfil_escuro = '/img/perfil-escuro.png'
+
 const perfil = {
   nome: 'Alexandre S G Ribeiro',
   iniciais: 'AR',
@@ -18,6 +23,10 @@ const itens = [
 
 export default function MenuPrincipal({ onSelect }) {
   const [ativo, setAtivo] = useState(0)
+  const { tema } = useTema()
+  const foto = tema === 'claro' ? imagemPerfil_claro : imagemPerfil_escuro
+
+  useAtalhosJogo({ onConfirmar: () => onSelect(itens[ativo].id) })
 
   useEffect(() => {
     const aoTeclar = (e) => {
@@ -39,7 +48,9 @@ export default function MenuPrincipal({ onSelect }) {
     <Container size={1200} className="menu-pagina">
       <BannerGame jogador="Alexandre" nivel="Nível 02" />
       <Group className="menu-topo" gap="md">
-        <span className="menu-avatar">{perfil.iniciais}</span>
+        <span className="menu-avatar">
+          <img src={foto} alt="" />
+        </span>
         <div>
           <Text fw={700} ff="monospace">{perfil.nome}</Text>
           <Text size="xs" c="dimmed">{perfil.cargo}</Text>
@@ -47,7 +58,7 @@ export default function MenuPrincipal({ onSelect }) {
       </Group>
 
       <Text className="menu-chamada">{perfil.nome} // {perfil.cargo}</Text>
-      <Title order={1} className="menu-titulo">Portifólio videogame</Title>
+      <Title order={1} className="menu-titulo">Menu Principal</Title>
       <Text size="xs" c="dimmed" className="menu-sub">Selecione seu próximo destino</Text>
 
       <div className="menu-corpo">
@@ -69,12 +80,8 @@ export default function MenuPrincipal({ onSelect }) {
         </Stack>
 
         <div className="menu-orbita" aria-hidden="true">
-          <span className="anel anel-1" />
-          <span className="anel anel-2" />
-          <span className="ponto" />
           <div className="menu-disco">
-            <strong>{perfil.iniciais}</strong>
-            <small>player 01</small>
+            <img className="menu-foto" src={foto} alt={`Foto de ${perfil.nome}`} />
           </div>
         </div>
       </div>
@@ -85,10 +92,10 @@ export default function MenuPrincipal({ onSelect }) {
       </div>
 
       <Group className="menu-dicas" justify="space-between">
-        <Text size="xs" ff="monospace" c="teal">Como navegar</Text>
+        <Text size="xs" ff="monospace" c="var(--destaque-forte)">Como navegar</Text>
         <Group gap="lg">
           <Group gap={6}><Kbd>↑</Kbd><Kbd>↓</Kbd><Text size="xs" c="dimmed">navegar</Text></Group>
-          <Group gap={6}><Kbd>Enter</Kbd><Text size="xs" c="dimmed">confirmar</Text></Group>
+          <Group gap={6}><Kbd>Enter</Kbd><Kbd>x</Kbd><Text size="xs" c="dimmed">confirmar</Text></Group>
           <Text size="xs" c="dimmed">ou passe o mouse e clique</Text>
         </Group>
       </Group>

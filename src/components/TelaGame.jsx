@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import useAtalhosJogo from '../hooks/useAtalhosJogo'
 import { Container, Group, Text, UnstyledButton, Kbd } from '@mantine/core'
 import BannerGame from './BannerGame'
 import './TelaGame.css'
@@ -7,16 +7,7 @@ const NOME = 'Alexandre Ribeiro' // troque pelo seu nome
 
 // Moldura padrão de todas as telas: banner de jogo, botão voltar e rodapé
 export default function TelaGame({ titulo, fase, onVoltar, children }) {
-  useEffect(() => {
-    const aoTeclar = (e) => {
-      // não dispara o atalho enquanto a pessoa digita ou usa Ctrl/Cmd/Alt
-      if (e.ctrlKey || e.metaKey || e.altKey) return
-      if (e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return
-      if (e.key.toLowerCase() === 'y') onVoltar()
-    }
-    window.addEventListener('keydown', aoTeclar)
-    return () => window.removeEventListener('keydown', aoTeclar)
-  }, [onVoltar])
+  useAtalhosJogo({ onVoltar })
 
   return (
     <Container size={1200} className="jogo-pagina">

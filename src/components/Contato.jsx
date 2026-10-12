@@ -10,7 +10,7 @@ const contatos = [
   { nome: 'E-mail', href: 'mailto:lexandre.guimaraes@gmail.com', Icone: IconMail },
   { nome: 'GitHub', href: 'https://github.com/AlexandreSampaioGuimaraesRibeiro', Icone: IconBrandGithub },
   { nome: 'LinkedIn', href: 'https://linkedin.com/in/alexandre-sampaio-guimarães-ribeiro-417760410', Icone: IconBrandLinkedin },
-  { nome: 'Instagram', href: 'https://instagram.com/seu_usuario', Icone: IconBrandInstagram },
+  { nome: 'Instagram', href: 'https://www.instagram.com/_alexandresampaio_', Icone: IconBrandInstagram },
 ]
 
 // Valores vindos do arquivo .env (veja o .env.example)

@@ -1,9 +1,13 @@
 .sobre-titulo { font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.05; letter-spacing: -0.04em; max-width: 18ch; margin-bottom: 48px; }
 .sobre-corpo { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: start; }
 .sobre-resumo { line-height: 1.8; margin-top: 16px; }
-.sobre-linha { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 22px 0; border-top: 2px dashed #232a29; }
-.sobre-periodo { font: 500 12px 'JetBrains Mono', monospace; color: #f0505f; padding-top: 6px; }
+.sobre-linha { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 22px 0; border-top: 2px dashed var(--borda); }
+.sobre-periodo { font: 500 12px 'JetBrains Mono', monospace; color: var(--secundaria); padding-top: 6px; }
 @media (max-width: 860px) {
   .sobre-corpo { grid-template-columns: 1fr; gap: 40px; }
   .sobre-linha { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* Tecnologias com ícone */
+.sobre-tag { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border: 2px solid var(--borda); background: var(--superficie); color: var(--texto); font-weight: 700; font-size: 14px; }
+.sobre-tag-icone { width: 36px; height: 36px; display: grid; place-items: center; background: #1f2330; border-radius: 8px; }

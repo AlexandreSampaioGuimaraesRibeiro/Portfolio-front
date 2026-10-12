@@ -1,0 +1,126 @@
+/* ===== Tema NOTURNO: painel de carro (âmbar e vermelho sobre asfalto) ===== */
+:root,
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --fundo: #0a0a0c;
+  --superficie: #131418;
+  --campo: #08080a;
+  --borda: #2b2e35;
+  --texto: #f2f2f2;
+  --suave: #9ea3ad;
+  --destaque: #ffb020;
+  --destaque-forte: #ffb020;
+  --destaque-texto: #1a1200;
+  --secundaria: #ff3b30;
+  --vidas: #ff3b30;
+  --erro: #ff5a4f;
+  --sombra-botao: #7a4f00;
+  --grade: rgba(255, 255, 255, .035);
+  --fonte-display: 'Orbitron', 'JetBrains Mono', monospace;
+  --tam-titulo: clamp(1.4rem, 5vw, 3.2rem);
+  --tam-menu-titulo: clamp(2rem, 6vw, 4.6rem);
+  --tam-etiqueta: 11px;
+  --peso-titulo: 900;
+  --espaco-titulo: 0.01em;
+  --disco-borda: #1d1f25;
+  --disco-texto: #f2f2f2;
+  --disco-fundo:
+    radial-gradient(circle, #101216 0 64%, transparent 65%),
+    conic-gradient(from 225deg, #ffb020 0 150deg, #ff3b30 150deg 270deg, transparent 270deg),
+    #0c0d10;
+  --fundo-corpo:
+    radial-gradient(ellipse at 85% -10%, rgba(255, 176, 32, .14), transparent 55%),
+    linear-gradient(var(--grade) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--grade) 1px, transparent 1px) 0 0 / 48px 48px,
+    #0a0a0c;
+}
+
+/* ===== Tema CLARO: inspirado em Dragon Ball (laranja, azul e céu) ===== */
+:root[data-tema="claro"] {
+  color-scheme: light;
+  --fundo: #dff3ff;
+  --superficie: #ffffff;
+  --campo: #f1f8ff;
+  --borda: #14213d;
+  --texto: #14213d;
+  --suave: #4a5878;
+  --destaque: #ff8a00;
+  --destaque-forte: #b45309;
+  --destaque-texto: #14213d;
+  --secundaria: #1d5bd8;
+  --vidas: #ff8a00;
+  --erro: #c1121f;
+  --sombra-botao: #14213d;
+  --grade: transparent;
+  --fonte-display: 'Bangers', 'Impact', sans-serif;
+  --tam-titulo: clamp(2.4rem, 9vw, 5.4rem);
+  --tam-menu-titulo: clamp(3rem, 9vw, 7rem);
+  --tam-etiqueta: 16px;
+  --peso-titulo: 400;
+  --espaco-titulo: 0.03em;
+  --disco-borda: #14213d;
+  --disco-texto: #14213d;
+  --disco-fundo: radial-gradient(circle at 32% 28%, #ffd27a, #ff8a00 55%, #d46a00);
+  --fundo-corpo:
+    radial-gradient(ellipse 220px 70px at 12% 18%, #fff 0 60%, transparent 62%),
+    radial-gradient(ellipse 280px 80px at 82% 28%, #fff 0 60%, transparent 62%),
+    radial-gradient(ellipse 200px 60px at 55% 8%, #fff 0 60%, transparent 62%),
+    linear-gradient(#7fcdf8, #cfeeff 55%, #fff3d6);
+}
+
+/* ===== Banner: decoração de cada tema ===== */
+.banner > * { position: relative; z-index: 1; }
+.banner::after { z-index: 0; }
+
+:root[data-tema="escuro"] .banner::after {
+  background:
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 16px),
+    linear-gradient(to top, rgba(255, 176, 32, .1), transparent 45%);
+}
+/* faixa de pista no rodapé do banner */
+:root[data-tema="escuro"] .banner::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 10px;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--destaque) 0 28px, transparent 28px 56px);
+  opacity: .5;
+}
+:root[data-tema="claro"] .banner::after {
+  background: repeating-conic-gradient(from 0deg at 50% 125%, rgba(255, 138, 0, .2) 0 6deg, transparent 6deg 12deg);
+}
+
+/* ===== Disco do menu: velocímetro (noturno) e esfera (claro) ===== */
+:root[data-tema="escuro"] .menu-disco::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 3px);
+  top: 0;
+  width: 6px;
+  height: 50%;
+  background: linear-gradient(var(--secundaria) 0 14%, transparent 14%);
+  border-radius: 3px;
+  transform-origin: 50% 100%;
+  transform: rotate(-100deg);
+  animation: ponteiro 3.2s ease-in-out infinite alternate;
+}
+:root[data-tema="claro"] .menu-disco::before {
+  content: "★ ★ ★";
+  position: absolute;
+  top: 8%;
+  left: 0; right: 0;
+  text-align: center;
+  color: #d62828;
+  font-size: 1.4rem;
+  letter-spacing: .15em;
+}
+
+@keyframes ponteiro { to { transform: rotate(100deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-tema="escuro"] .menu-disco::after { animation: none; transform: rotate(30deg); }
+}
+
+/* ===== Conteúdo exclusivo de cada tema (troca instantânea, sem recarregar) ===== */
+:root[data-tema="claro"] .so-escuro { display: none; }
+:root:not([data-tema="claro"]) .so-claro { display: none; }
