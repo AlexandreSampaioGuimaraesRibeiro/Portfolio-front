@@ -1,0 +1,47 @@
+.menu-pagina { padding-block: 24px; min-height: 100vh; }
+
+.menu-topo { margin-bottom: 40px; }
+.menu-avatar { width: 44px; height: 44px; border-radius: 50%; background: #5df0cc; color: #06231c; display: grid; place-items: center; font: 700 14px 'JetBrains Mono', monospace; }
+
+.menu-chamada { font: 700 12px 'JetBrains Mono', monospace; color: #5df0cc; margin-bottom: 8px; }
+.menu-titulo { font-size: clamp(3rem, 9vw, 7rem); font-weight: 800; font-style: italic; line-height: .95; letter-spacing: -0.05em; text-transform: uppercase; }
+.menu-sub { font-family: 'JetBrains Mono', monospace; margin: 12px 0 24px; padding-bottom: 24px; border-bottom: 1px solid #232a29; }
+
+.menu-corpo { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+
+/* Lista do menu */
+.menu-lista { max-width: 460px; }
+.menu-item { display: flex; align-items: center; gap: 20px; padding: 16px 24px; border: 1px solid #232a29; border-radius: 14px 28px 28px 14px; background: #101414; color: #9a9f9e; font-weight: 800; text-transform: uppercase; transition: transform .2s, background .2s, color .2s; }
+.menu-item:nth-child(even) { margin-left: 28px; }
+.menu-item.ativo { background: #5df0cc; color: #06231c; border-color: #5df0cc; transform: translateX(14px); box-shadow: 0 0 32px rgba(93, 240, 204, .25); }
+.menu-item:focus-visible { outline: 2px solid #5df0cc; outline-offset: 3px; }
+.menu-num { font: 700 11px 'JetBrains Mono', monospace; opacity: .6; }
+.menu-nome { flex: 1; font-size: 18px; }
+
+/* Disco com iniciais */
+.menu-orbita { position: relative; width: min(380px, 100%); aspect-ratio: 1; margin-inline: auto; display: grid; place-items: center; }
+.anel { position: absolute; border-radius: 50%; }
+.anel-1 { inset: 0; border: 1px dashed rgba(93, 240, 204, .35); }
+.anel-2 { inset: 8%; border: 1px solid rgba(93, 240, 204, .5); }
+.ponto { position: absolute; inset: 8%; animation: orbitar 12s linear infinite; }
+.ponto::after { content: ""; position: absolute; top: 12%; right: 12%; width: 14px; height: 14px; border-radius: 50%; background: #f0505f; box-shadow: 0 0 14px #f0505f; }
+.menu-disco { width: 68%; aspect-ratio: 1; border-radius: 50%; border: 8px solid #e6fff8; background: radial-gradient(circle at 30% 25%, #8bf7dd, #3ee0b8); color: #06231c; display: grid; place-content: center; text-align: center; box-shadow: 0 0 60px rgba(93, 240, 204, .35); }
+.menu-disco strong { font: 800 clamp(3rem, 8vw, 5.5rem) 'JetBrains Mono', monospace; letter-spacing: -0.08em; transform: skewX(-8deg); line-height: 1; }
+.menu-disco small { font: 700 10px 'JetBrains Mono', monospace; text-transform: uppercase; }
+
+/* Descrição e dicas */
+.menu-descricao { display: flex; align-items: center; gap: 20px; margin-top: 40px; padding: 20px 24px; background: #0e1312; border: 1px solid #232a29; border-left: 4px solid #f0505f; }
+.menu-descricao > span { font: 500 22px 'JetBrains Mono', monospace; color: #f0505f; }
+.menu-dicas { margin-top: 24px; padding-bottom: 20px; border-bottom: 1px solid #232a29; }
+.menu-rodape { padding-top: 24px; }
+
+@keyframes orbitar { to { transform: rotate(360deg); } }
+
+@media (max-width: 860px) {
+  .menu-corpo { grid-template-columns: 1fr; }
+  .menu-orbita { order: -1; width: min(260px, 70%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ponto { animation: none; }
+  .menu-item { transition: none; }
+}
