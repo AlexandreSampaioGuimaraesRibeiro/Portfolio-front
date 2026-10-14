@@ -1,0 +1,54 @@
+.waka-sub { color: var(--suave); font-size: 14px; margin: 0 0 24px; }
+.waka-sub a { color: var(--destaque-forte); }
+.waka-status { color: var(--suave); line-height: 1.6; margin: 0; }
+.waka-status.erro, .waka-status.configurar { color: var(--erro); }
+.waka-detalhe { margin: 14px 0 0; font: 12px 'JetBrains Mono', monospace; color: var(--suave); word-break: break-all; }
+.waka-resumo { margin: 0; line-height: 1.6; }
+.waka-nome { flex: 1; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.waka-tempo { color: var(--suave); font-size: 13px; }
+.waka-pct { font: 700 13px 'JetBrains Mono', monospace; color: var(--destaque-forte); }
+
+/* Indicadores */
+.waka-kpis { list-style: none; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; }
+.waka-kpi { display: grid; gap: 4px; padding: 16px; border: 2px solid var(--borda); background: var(--campo); }
+.waka-kpi-rotulo { font: 700 11px 'JetBrains Mono', monospace; color: var(--suave); text-transform: uppercase; }
+.waka-kpi-valor { font-size: 24px; line-height: 1.1; }
+.waka-kpi-nota { font-size: 12px; color: var(--suave); min-height: 1em; }
+
+/* 1) Grade com anéis */
+.waka-grade { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+.waka-celula { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 18px 12px; border: 2px solid var(--borda); background: var(--campo); text-align: center; }
+.waka-celula .waka-nome { flex: none; max-width: 100%; margin-top: 6px; }
+.waka-tempo-forte { font-size: 13px; color: var(--destaque-forte); font-weight: 700; }
+.waka-anel { position: relative; width: 84px; height: 84px; }
+.waka-anel svg { width: 100%; height: 100%; }
+.waka-anel-trilho, .waka-anel-valor { fill: none; stroke-width: 7; }
+.waka-anel-trilho { stroke: var(--borda); }
+.waka-anel-valor { stroke: var(--cor); stroke-dasharray: 100; stroke-dashoffset: var(--falta); }
+.waka-anel-icone { position: absolute; inset: 18px; border-radius: 50%; background: #1f2330; display: grid; place-items: center; }
+.carrossel-slide.ativo .waka-anel-valor { animation: anel .9s ease-out both; animation-delay: calc(var(--i) * 60ms); }
+@keyframes anel { from { stroke-dashoffset: 100; } }
+
+/* 2) Fatias + legenda */
+.waka-fatias { display: flex; height: 20px; margin: 20px 0 24px; border: 2px solid var(--borda); overflow: hidden; }
+.waka-fatia { min-width: 3px; border-right: 2px solid var(--superficie); }
+.waka-fatia:last-child { border-right: 0; }
+.waka-legenda { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px 32px; }
+.waka-legenda li { display: flex; align-items: center; gap: 12px; }
+.waka-ponto { flex: none; width: 12px; height: 12px; outline: 1px solid color-mix(in srgb, var(--texto) 30%, transparent); }
+
+/* 3) Ranking em barras de XP */
+.waka-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+.waka-linha { display: flex; align-items: center; gap: 16px; }
+.waka-icone { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: #1f2330; border-radius: 10px; }
+.waka-corpo { flex: 1; min-width: 0; }
+.waka-cabeca { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.waka-cabeca .waka-pct { min-width: 52px; text-align: right; }
+.xp { height: 14px; background: repeating-linear-gradient(90deg, var(--borda) 0 8px, transparent 8px 11px); }
+.xp-fill { height: 100%; width: var(--pct); background: repeating-linear-gradient(90deg, var(--destaque) 0 8px, transparent 8px 11px); }
+.carrossel-slide.ativo .xp-fill { animation: encher .8s ease-out both; animation-delay: calc(var(--i) * 80ms); }
+@keyframes encher { from { width: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .carrossel-slide.ativo .xp-fill, .carrossel-slide.ativo .waka-anel-valor { animation: none; }
+}

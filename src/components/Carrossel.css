@@ -1,0 +1,20 @@
+.carrossel button { cursor: pointer; font-family: inherit; }
+.carrossel-topo { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.carrossel-titulo { display: grid; gap: 10px; text-align: center; }
+.carrossel-titulo strong { font-size: 18px; }
+.carrossel-titulo .jogo-etiqueta { margin: 0; }
+
+/* o padding deixa a sombra dos cartões aparecer dentro da janela */
+.carrossel-janela { overflow: hidden; padding: 0 10px 10px 0; }
+.carrossel-trilho { display: flex; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.carrossel-slide { flex: 0 0 100%; min-width: 0; visibility: hidden; transition: visibility 0s .45s; }
+.carrossel-slide.ativo { visibility: visible; transition-delay: 0s; }
+
+.carrossel-pontos { display: flex; justify-content: center; gap: 10px; margin-top: 24px; }
+.carrossel-ponto { width: 14px; height: 14px; padding: 0; border: 2px solid var(--borda); background: transparent; }
+.carrossel-ponto.ativo { background: var(--destaque); border-color: var(--destaque); }
+.carrossel-ponto:focus-visible, .carrossel button:focus-visible { outline: 2px solid var(--destaque); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .carrossel-trilho, .carrossel-slide { transition: none; }
+}

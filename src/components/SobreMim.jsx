@@ -7,7 +7,8 @@ import './SobreMim.css'
 // Troque pelos seus dados
 const resumo =
   'Estudante de Engenharia de Software na PUC Minas, em Belo Horizonte. Desenvolvo projetos acadêmicos e pessoais com Java, React e PHP, e gosto de transformar uma ideia em algo que funciona de ponta a ponta.'
-const curriculo = '/curriculo.pdf' // coloque o arquivo em public/curriculo.pdf
+const curriculo = 'public/curriculo/Curriculo_Portugues.pdf'
+const curriculoIngles = 'public/curriculo/Curriculo_Ingles.pdf'
 const tags = [
   { nome: 'Java', Icone: FaJava, cor: '#ED8B00' },
   { nome: 'Spring Boot', Icone: SiSpringboot, cor: '#6DB33F' },
