@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/wakatime-api/:path*", "destination": "https://wakatime.com/api/v1/:path*" }
+    {
+      "source": "/api/wakatime/:path*",
+      "destination": "https://wakatime.com/api/v1/users/acc8534a-d626-49d6-a547-13e31d679ecf/:path*"
+    }
   ]
 }

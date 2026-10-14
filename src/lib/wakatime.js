@@ -35,25 +35,21 @@ function normalizar(d) {
 // Se o período escolhido não existir ou não estiver liberado, tenta os próximos.
 export async function buscarEstatisticas() {
   if (cache) return cache
-  const usuario = encodeURIComponent(usuarioLimpo())
-  const periodos = [...new Set([WAKATIME.intervalo, 'last_year', ''])]
-  let ultimoErro = null
-
-  for (const periodo of periodos) {
-    const url = `${WAKATIME.base ?? '/wakatime-api'}/users/${usuario}/stats/${periodo}?is_including_today=true`
-    const resposta = await fetch(url) // erro de rede/CORS sobe direto
-    if (resposta.status === 202) throw new WakaPendente()
-    if (resposta.ok) {
-      if (!(resposta.headers.get('content-type') ?? '').includes('json')) {
-        throw new Error('A rota /wakatime-api não está ativa: confira o proxy no vite.config.js e reinicie o servidor.')
-      }
-      const { data } = await resposta.json()
-      cache = normalizar(data)
-      return cache
-    }
-    ultimoErro = new Error(`WakaTime respondeu ${resposta.status} para ${url}`)
+  // O usuário fica no rewrite (vercel.json) e no middleware (vite.config.js).
+  // Só o período público do perfil funciona: os outros dão 400 no WakaTime.
+  const url = `${WAKATIME.base}/stats/${WAKATIME.intervalo}`
+  const resposta = await fetch(url) // erro de rede sobe direto
+  if (resposta.status === 202) throw new WakaPendente()
+  const tipo = resposta.headers.get('content-type') ?? ''
+  if (!tipo.includes('json')) {
+    throw new Error('A rota /api/wakatime não está ativa: confira o vite.config.js e reinicie o servidor.')
   }
-  throw ultimoErro
+  const corpo = await resposta.json().catch(() => ({}))
+  if (!resposta.ok) {
+    throw new Error(`WakaTime respondeu ${resposta.status} em ${url}${corpo.error ? ` — ${corpo.error}` : ''}`)
+  }
+  cache = normalizar(corpo.data)
+  return cache
 }
 
 /* ---------- formatação em português ---------- */
