@@ -7,7 +7,3 @@
   .sobre-corpo { grid-template-columns: 1fr; gap: 40px; }
   .sobre-linha { grid-template-columns: 1fr; gap: 4px; }
 }
-
-/* Tecnologias com ícone */
-.sobre-tag { display: inline-flex; align-items: center; gap: 10px; padding: 6px 14px 6px 6px; border: 2px solid var(--borda); background: var(--superficie); color: var(--texto); font-weight: 700; font-size: 14px; }
-.sobre-tag-icone { width: 36px; height: 36px; display: grid; place-items: center; background: #1f2330; border-radius: 8px; }

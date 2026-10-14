@@ -1,7 +1,6 @@
 import { Title, Text, Group } from '@mantine/core'
-import { FaJava } from 'react-icons/fa'
-import { SiSpringboot, SiReact, SiLaravel } from 'react-icons/si'
 import TelaGame from './TelaGame'
+import Tecnologia from './Tecnologia'
 import { useIdioma } from '../idioma/contexto'
 import './SobreMim.css'
 
@@ -10,12 +9,7 @@ import './SobreMim.css'
 const curriculo = '/curriculo/Curriculo_Portugues.pdf'
 const curriculoIngles = '/curriculo/Curriculo_Ingles.pdf'
 
-const tags = [
-  { nome: 'Java', Icone: FaJava, cor: '#ED8B00' },
-  { nome: 'Spring Boot', Icone: SiSpringboot, cor: '#6DB33F' },
-  { nome: 'React', Icone: SiReact, cor: '#61DAFB' },
-  { nome: 'Laravel', Icone: SiLaravel, cor: '#FF2D20' },
-]
+const tags = ['Java', 'Spring Boot', 'React', 'Laravel']
 
 export default function SobreMim({ onVoltar }) {
   const { t, idioma } = useIdioma()
@@ -30,13 +24,8 @@ export default function SobreMim({ onVoltar }) {
           <Title order={2} fw={400} size="h2">{t('sobre.resumoTitulo')}</Title>
           <Text c="dimmed" className="sobre-resumo">{t('sobre.resumo')}</Text>
           <Group gap="xs" my="lg">
-            {tags.map(({ nome, Icone, cor }) => (
-              <span key={nome} className="sobre-tag" translate="no">
-                <span className="sobre-tag-icone">
-                  <Icone size={20} color={cor} aria-hidden="true" />
-                </span>
-                {nome}
-              </span>
+            {tags.map((nome) => (
+              <Tecnologia key={nome} nome={nome} />
             ))}
           </Group>
           <a

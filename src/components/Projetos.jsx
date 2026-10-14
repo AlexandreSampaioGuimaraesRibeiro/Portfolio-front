@@ -1,5 +1,6 @@
-import { Text, Badge, Group } from '@mantine/core'
+import { Text, Group } from '@mantine/core'
 import TelaGame from './TelaGame'
+import Tecnologia from './Tecnologia'
 import { useIdioma } from '../idioma/contexto'
 
 // Troque pelos seus projetos. "repo" é o link do código (o botão só aparece se estiver preenchido).
@@ -24,7 +25,7 @@ export default function Projetos({ onVoltar }) {
             <Text c="dimmed" mb="md" style={{ lineHeight: 1.7 }}>{descricoes[i]}</Text>
             <Group gap="xs" mb="lg">
               {p.tecnologias.map((tec) => (
-                <Badge key={tec} variant="outline" color="gray" radius={0} tt="none">{tec}</Badge>
+                <Tecnologia key={tec} nome={tec} />
               ))}
             </Group>
             {p.repo && (
