@@ -27,7 +27,7 @@ export const HABILIDADES = [
   { nome: 'Vite', Icone: SiVite, cor: '#9D7BFF', link: 'https://vite.dev' },
   { nome: 'ESLint', Icone: SiEslint, cor: '#8080F2', link: 'https://eslint.org' },
   { nome: 'Git', Icone: SiGit, cor: '#F05032', link: 'https://git-scm.com' },
-  { nome: 'GitHub', Icone: SiGithub, cor: '#FFFFFF', link: 'https://github.com' },
+  { nome: 'GitHub', Icone: SiGithub, cor: '#FFFFFF', link: 'https://github.com/AlexandreSampaioGuimaraesRibeiro' },
   { nome: 'Docker', Icone: SiDocker, cor: '#2496ED', link: 'https://www.docker.com' },
   { nome: 'VS Code', Icone: VscVscode, cor: '#2F9BE8', link: 'https://code.visualstudio.com' },
   { nome: 'Notion', Icone: SiNotion, cor: '#FFFFFF', link: 'https://www.notion.com' },
