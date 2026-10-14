@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Kbd } from '@mantine/core'
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
+import { useIdioma } from '../idioma/contexto'
 import './Carrossel.css'
 
 // slides: [{ id, titulo, conteudo }]
 // Navegação: botões, bolinhas ou setas ← → do teclado
 export default function Carrossel({ slides, rotulo = 'Painéis' }) {
+  const { t } = useIdioma()
   const [ativo, setAtivo] = useState(0)
   const total = slides.length
   const ir = (indice) => setAtivo(((indice % total) + total) % total)
@@ -29,16 +31,19 @@ export default function Carrossel({ slides, rotulo = 'Painéis' }) {
   return (
     <section className="carrossel" aria-roledescription="carrossel" aria-label={rotulo}>
       <div className="carrossel-topo">
-        <button type="button" className="jogo-botao vazado" onClick={() => ir(ativo - 1)} aria-label="Painel anterior">
+        <button type="button" className="jogo-botao vazado" onClick={() => ir(ativo - 1)} aria-label={t('carrossel.anterior')}>
           <IconChevronLeft size={18} aria-hidden="true" />
           <Kbd>←</Kbd>
         </button>
 
         <div className="carrossel-titulo" aria-live="polite">
+          <span className="jogo-etiqueta">
+            {String(ativo + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
           <strong>{slides[ativo].titulo}</strong>
         </div>
 
-        <button type="button" className="jogo-botao vazado" onClick={() => ir(ativo + 1)} aria-label="Próximo painel">
+        <button type="button" className="jogo-botao vazado" onClick={() => ir(ativo + 1)} aria-label={t('carrossel.proximo')}>
           <Kbd>→</Kbd>
           <IconChevronRight size={18} aria-hidden="true" />
         </button>
@@ -52,7 +57,7 @@ export default function Carrossel({ slides, rotulo = 'Painéis' }) {
               className={`carrossel-slide ${i === ativo ? 'ativo' : ''}`}
               role="group"
               aria-roledescription="slide"
-              aria-label={`${i + 1} de ${total}: ${slide.titulo}`}
+              aria-label={t('carrossel.slide', { n: i + 1, total, titulo: slide.titulo })}
             >
               {slide.conteudo}
             </div>
@@ -60,13 +65,13 @@ export default function Carrossel({ slides, rotulo = 'Painéis' }) {
         </div>
       </div>
 
-      <div className="carrossel-pontos" role="group" aria-label="Escolher painel">
+      <div className="carrossel-pontos" role="group" aria-label={t('carrossel.escolher')}>
         {slides.map((slide, i) => (
           <button
             key={slide.id}
             type="button"
             className={`carrossel-ponto ${i === ativo ? 'ativo' : ''}`}
-            aria-label={`Ir para ${slide.titulo}`}
+            aria-label={t('carrossel.irPara', { titulo: slide.titulo })}
             aria-current={i === ativo}
             onClick={() => ir(i)}
           />

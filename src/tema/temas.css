@@ -1,38 +1,34 @@
-/* ===== Tema NOTURNO: painel de carro (âmbar e vermelho sobre asfalto) ===== */
+/* ===== Tema NOTURNO: Tóquio à noite (ciano e vermelho neon sobre asfalto molhado) ===== */
 :root,
 :root[data-tema="escuro"] {
   color-scheme: dark;
-  --fundo: #0a0a0c;
-  --superficie: #131418;
-  --campo: #08080a;
-  --borda: #2b2e35;
-  --texto: #f2f2f2;
-  --suave: #9ea3ad;
-  --destaque: #ffb020;
-  --destaque-forte: #ffb020;
-  --destaque-texto: #1a1200;
-  --secundaria: #ff3b30;
-  --vidas: #ff3b30;
-  --erro: #ff5a4f;
-  --sombra-botao: #7a4f00;
-  --grade: rgba(255, 255, 255, .035);
+  --fundo: #03080a;
+  --superficie: rgba(5, 15, 19, .86);
+  --campo: #030b0e;
+  --borda: #1f4850;
+  --texto: #e6f4f6;
+  --suave: #8fb4ba;
+  --destaque: #35d6e0;
+  --destaque-forte: #35d6e0;
+  --destaque-texto: #021417;
+  --secundaria: #f0303f;
+  --vidas: #f0303f;
+  --erro: #ff5c68;
+  --sombra-botao: #0d6d75;
+  --grade: transparent;
   --fonte-display: 'Orbitron', 'JetBrains Mono', monospace;
   --tam-titulo: clamp(1.4rem, 5vw, 3.2rem);
   --tam-menu-titulo: clamp(2rem, 6vw, 4.6rem);
   --tam-etiqueta: 11px;
   --peso-titulo: 900;
   --espaco-titulo: 0.01em;
-  --disco-borda: #1d1f25;
-  --disco-texto: #f2f2f2;
+  --disco-borda: #0b1a1e;
+  --disco-texto: #e6f4f6;
   --disco-fundo:
-    radial-gradient(circle, #101216 0 64%, transparent 65%),
-    conic-gradient(from 225deg, #ffb020 0 150deg, #ff3b30 150deg 270deg, transparent 270deg),
-    #0c0d10;
-  --fundo-corpo:
-    radial-gradient(ellipse at 85% -10%, rgba(255, 176, 32, .14), transparent 55%),
-    linear-gradient(var(--grade) 1px, transparent 1px) 0 0 / 48px 48px,
-    linear-gradient(90deg, var(--grade) 1px, transparent 1px) 0 0 / 48px 48px,
-    #0a0a0c;
+    radial-gradient(circle, #060f12 0 64%, transparent 65%),
+    conic-gradient(from 225deg, var(--destaque) 0 202.5deg, var(--secundaria) 202.5deg 270deg, transparent 270deg),
+    #050b0d;
+  --fundo-corpo: var(--fundo);
 }
 
 /* ===== Tema CLARO: inspirado em Dragon Ball (laranja, azul e céu) ===== */
@@ -75,7 +71,7 @@
 :root[data-tema="escuro"] .banner::after {
   background:
     repeating-linear-gradient(115deg, rgba(255, 255, 255, .035) 0 2px, transparent 2px 16px),
-    linear-gradient(to top, rgba(255, 176, 32, .1), transparent 45%);
+    linear-gradient(to top, color-mix(in srgb, var(--destaque) 12%, transparent), transparent 45%);
 }
 /* faixa de pista no rodapé do banner */
 :root[data-tema="escuro"] .banner::before {
@@ -91,19 +87,6 @@
 }
 
 /* ===== Disco do menu: velocímetro (noturno) e esfera (claro) ===== */
-:root[data-tema="escuro"] .menu-disco::after {
-  content: "";
-  position: absolute;
-  left: calc(50% - 3px);
-  top: 0;
-  width: 6px;
-  height: 50%;
-  background: linear-gradient(var(--secundaria) 0 14%, transparent 14%);
-  border-radius: 3px;
-  transform-origin: 50% 100%;
-  transform: rotate(-100deg);
-  animation: ponteiro 3.2s ease-in-out infinite alternate;
-}
 :root[data-tema="claro"] .menu-disco::before {
   content: "★ ★ ★";
   position: absolute;
@@ -115,12 +98,23 @@
   letter-spacing: .15em;
 }
 
-@keyframes ponteiro { to { transform: rotate(100deg); } }
-
-@media (prefers-reduced-motion: reduce) {
-  :root[data-tema="escuro"] .menu-disco::after { animation: none; transform: rotate(30deg); }
-}
-
 /* ===== Conteúdo exclusivo de cada tema (troca instantânea, sem recarregar) ===== */
 :root[data-tema="claro"] .so-escuro { display: none; }
 :root:not([data-tema="claro"]) .so-claro { display: none; }
+
+/* ===== Fundo do tema noturno: foto da cidade à noite ===== */
+:root:not([data-tema="claro"]) body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(3, 8, 10, .6) 100%),
+    linear-gradient(180deg, rgba(3, 8, 10, .55), rgba(3, 8, 10, .84)),
+    url('/img/fundo-noturno.webp') center / cover no-repeat;
+}
+/* vidro fosco: as superfícies translúcidas deixam a foto aparecer sem atrapalhar a leitura */
+:root:not([data-tema="claro"]) :is(.jogo-cartao, .banner, .menu-item, .menu-descricao, .tema-seletor, .jogo-voltar) {
+  backdrop-filter: blur(6px);
+}

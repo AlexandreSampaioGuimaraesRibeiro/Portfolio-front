@@ -2,15 +2,17 @@ import { useEffect } from 'react'
 import { Kbd, UnstyledButton } from '@mantine/core'
 import { IconMoon, IconSun } from '@tabler/icons-react'
 import { useTema } from '../tema/contexto'
+import { useIdioma } from '../idioma/contexto'
 import './AlternarTema.css'
 
 const OPCOES = [
-  { id: 'escuro', rotulo: 'Noturno', tecla: 'c', Icone: IconMoon },
-  { id: 'claro', rotulo: 'Claro', tecla: 'd', Icone: IconSun },
+  { id: 'escuro', chave: 'tema.noturno', tecla: 'n', Icone: IconMoon },
+  { id: 'claro', chave: 'tema.claro', tecla: 'd', Icone: IconSun },
 ]
 
 export default function AlternarTema() {
   const { tema, mudarTema } = useTema()
+  const { t } = useIdioma()
 
   // N = noturno, D = claro (ignora digitação em campos)
   useEffect(() => {
@@ -25,8 +27,8 @@ export default function AlternarTema() {
   }, [mudarTema])
 
   return (
-    <div className="tema-seletor" role="group" aria-label="Tema do site">
-      {OPCOES.map(({ id, rotulo, tecla, Icone }) => (
+    <div className="tema-seletor" role="group" aria-label={t('tema.grupo')}>
+      {OPCOES.map(({ id, chave, tecla, Icone }) => (
         <UnstyledButton
           key={id}
           className={`tema-opcao ${tema === id ? 'ativo' : ''}`}
@@ -34,7 +36,7 @@ export default function AlternarTema() {
           onClick={() => mudarTema(id)}
         >
           <Icone size={16} aria-hidden="true" />
-          {rotulo}
+          {t(chave)}
           <Kbd size="xs">{tecla.toUpperCase()}</Kbd>
         </UnstyledButton>
       ))}

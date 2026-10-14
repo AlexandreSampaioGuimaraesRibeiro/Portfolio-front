@@ -42,3 +42,18 @@
 /* Fotos de perfil */
 .menu-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .menu-foto { position: absolute; top: 19%; left: 19%; width: 62%; height: 62%; border-radius: 50%; object-fit: cover; border: 4px solid var(--disco-borda); z-index: 1; }
+
+/* Velocímetro (tema noturno) */
+.menu-velocimetro { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+.menu-velo-num { font: 700 7.5px var(--fonte-display); }
+.menu-velo-unid { font: 700 5.5px var(--fonte-display); fill: var(--suave); letter-spacing: .12em; }
+.menu-agulha { transform-box: view-box; transform-origin: 50% 50%; filter: drop-shadow(0 0 2px var(--secundaria)); animation: agulha 5.5s ease-in-out infinite alternate; }
+@keyframes agulha {
+  0%   { transform: rotate(-60deg); }
+  35%  { transform: rotate(70deg); }
+  60%  { transform: rotate(10deg); }
+  100% { transform: rotate(118deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-agulha { animation: none; transform: rotate(30deg); }
+}

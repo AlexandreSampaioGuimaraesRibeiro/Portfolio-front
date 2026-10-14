@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Container } from '@mantine/core'
 import AlternarTema from './components/AlternarTema'
+import AlternarIdioma from './components/AlternarIdioma'
 import MenuPrincipal from './components/MenuPrincipal'
 import SobreMim from './components/SobreMim'
 import Projetos from './components/Projetos'
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <>
       <Container size={1200} className="tema-barra">
+        <AlternarIdioma />
         <AlternarTema />
       </Container>
       {Tela ? <Tela onVoltar={() => setTela('menu')} /> : <MenuPrincipal onSelect={setTela} />}

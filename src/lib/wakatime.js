@@ -65,14 +65,14 @@ export function formatarDuracao(segundos) {
   return m === 0 ? `${h} h` : `${h} h ${m} min`
 }
 
-export const formatarPercent = (n) =>
-  `${Number(n).toLocaleString('pt-BR', { maximumFractionDigits: 1 })}%`
+export const formatarPercent = (n, locale = 'pt-BR') =>
+  `${Number(n).toLocaleString(locale, { maximumFractionDigits: 1 })}%`
 
 export const formatarData = (iso) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
 
-export const formatarDataCompleta = (iso) =>
-  new Date(iso).toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' })
+export const formatarDataCompleta = (iso, locale = 'pt-BR') =>
+  new Date(iso).toLocaleDateString(locale, { day: 'numeric', month: 'short', year: 'numeric' })
 
 const INTERVALOS = {
   'last 7 days': 'Últimos 7 dias',
@@ -81,4 +81,6 @@ const INTERVALOS = {
   'last year': 'Último ano',
   'all time': 'Todo o período',
 }
-export const traduzirIntervalo = (texto) => INTERVALOS[texto.toLowerCase()] ?? texto
+// Em inglês, usa o texto original do WakaTime (ex.: "Last 7 Days")
+export const traduzirIntervalo = (texto, idioma = 'pt') =>
+  idioma === 'en' ? texto : INTERVALOS[texto.toLowerCase()] ?? texto

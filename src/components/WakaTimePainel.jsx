@@ -1,26 +1,33 @@
 import { IconDots } from '@tabler/icons-react'
 import { infoLinguagem } from '../data/linguagens'
+import { useIdioma } from '../idioma/contexto'
 import {
   formatarDataCompleta, formatarDuracao, formatarPercent, traduzirIntervalo, usuarioLimpo,
 } from '../lib/wakatime'
 import './WakaTimePainel.css'
 
-const MENSAGENS = {
-  carregando: 'Carregando suas estatísticas...',
-  pendente: 'O WakaTime ainda está calculando seus dados. Tente de novo em alguns minutos.',
-  erro: 'Não foi possível carregar os dados do WakaTime agora. Confira se o seu perfil está público.',
-  configurar: 'Defina o seu usuário em src/config/wakatime.js para ver as estatísticas.',
+// Tradução + números e datas no formato do idioma atual
+function useFormato() {
+  const { t, idioma } = useIdioma()
+  const locale = idioma === 'en' ? 'en-US' : 'pt-BR'
+  return {
+    t,
+    idioma,
+    locale,
+    pct: (n) => formatarPercent(n, locale),
+    numero: (n) => n.toLocaleString(locale),
+  }
 }
 
 // Junta o que passa do limite em uma única linha "Outras"
-function limitar(linguagens, limite) {
+function limitar(linguagens, limite, t) {
   const topo = linguagens.slice(0, limite)
   const resto = linguagens.slice(limite)
   if (resto.length === 0) return topo
   const soma = (campo) => resto.reduce((total, l) => total + l[campo], 0)
   return [
     ...topo,
-    { nome: `Outras (${resto.length})`, segundos: soma('segundos'), percent: soma('percent'), resto: true },
+    { nome: t('waka.outras', { n: resto.length }), segundos: soma('segundos'), percent: soma('percent'), resto: true },
   ]
 }
 
@@ -29,22 +36,23 @@ const estilo = (item) =>
 
 // Cartão comum aos três painéis: título, período e os avisos de carregando/erro
 function Moldura({ etiqueta, estado, children }) {
+  const { t, idioma, locale } = useFormato()
   const { status, dados, detalhe } = estado
 
   if (status !== 'pronto') {
     return (
       <section className="jogo-cartao">
         <p className="jogo-etiqueta">{etiqueta}</p>
-        <p className={`waka-status ${status}`} role="status">{MENSAGENS[status]}</p>
-        {detalhe && <p className="waka-detalhe">Detalhe técnico: {detalhe}</p>}
+        <p className={`waka-status ${status}`} role="status">{t(`waka.mensagens.${status}`)}</p>
+        {detalhe && <p className="waka-detalhe">{t('waka.detalhe')} {detalhe}</p>}
       </section>
     )
   }
 
   const periodo =
     dados.desde && dados.intervalo.toLowerCase() === 'all time'
-      ? `Desde ${formatarDataCompleta(dados.desde)}`
-      : traduzirIntervalo(dados.intervalo)
+      ? t('waka.desde', { data: formatarDataCompleta(dados.desde, locale) })
+      : traduzirIntervalo(dados.intervalo, idioma)
 
   return (
     <section className="jogo-cartao">
@@ -55,29 +63,24 @@ function Moldura({ etiqueta, estado, children }) {
           wakatime.com/@{usuarioLimpo()}
         </a>
       </p>
-      {dados.linguagens.length > 0 ? (
-        children(dados)
-      ) : (
-        <p className="waka-status">
-          O WakaTime não está compartilhando suas linguagens. Ative nas configurações do perfil.
-        </p>
-      )}
+      {dados.linguagens.length > 0 ? children(dados) : <p className="waka-status">{t('waka.semLinguagens')}</p>}
     </section>
   )
 }
 
 /* ---------- 1) Grade: indicadores + um cartão com anel por linguagem ---------- */
 function Indicadores({ dados }) {
+  const { t, pct, numero } = useFormato()
   const editor = dados.editores[0]
   const itens = [
-    { rotulo: 'Tempo total', valor: formatarDuracao(dados.totalSegundos), nota: `em ${dados.linguagens.length} linguagens` },
-    { rotulo: 'Média diária', valor: formatarDuracao(dados.mediaDiaria), nota: 'nos dias com código' },
+    { rotulo: t('waka.total'), valor: formatarDuracao(dados.totalSegundos), nota: t('waka.emLinguagens', { n: dados.linguagens.length }) },
+    { rotulo: t('waka.media'), valor: formatarDuracao(dados.mediaDiaria), nota: t('waka.diasComCodigo') },
     dados.diasAtivos != null && {
-      rotulo: 'Dias ativos',
-      valor: dados.diasAtivos.toLocaleString('pt-BR'),
-      nota: dados.diasTotais ? `de ${dados.diasTotais.toLocaleString('pt-BR')} dias` : '',
+      rotulo: t('waka.dias'),
+      valor: numero(dados.diasAtivos),
+      nota: dados.diasTotais ? t('waka.deDias', { n: numero(dados.diasTotais) }) : '',
     },
-    editor && { rotulo: 'Editor', valor: editor.nome, nota: `${formatarPercent(editor.percent)} do tempo` },
+    editor && { rotulo: t('waka.editor'), valor: editor.nome, nota: t('waka.doTempo', { p: pct(editor.percent) }) },
   ].filter(Boolean)
 
   return (
@@ -94,6 +97,7 @@ function Indicadores({ dados }) {
 }
 
 function Celula({ item, indice }) {
+  const { pct } = useFormato()
   const { Icone, cor } = estilo(item)
   return (
     <li
@@ -103,7 +107,7 @@ function Celula({ item, indice }) {
       <div
         className="waka-anel"
         role="img"
-        aria-label={`${item.nome}: ${formatarDuracao(item.segundos)}, ${formatarPercent(item.percent)}`}
+        aria-label={`${item.nome}: ${formatarDuracao(item.segundos)}, ${pct(item.percent)}`}
       >
         <svg viewBox="0 0 80 80" aria-hidden="true">
           <circle className="waka-anel-trilho" cx="40" cy="40" r="34" />
@@ -115,19 +119,20 @@ function Celula({ item, indice }) {
       </div>
       <span className="waka-nome" title={item.nome}>{item.nome}</span>
       <span className="waka-tempo-forte">{formatarDuracao(item.segundos)}</span>
-      <span className="waka-pct">{formatarPercent(item.percent)}</span>
+      <span className="waka-pct">{pct(item.percent)}</span>
     </li>
   )
 }
 
 export function WakaGrade({ estado }) {
+  const { t } = useFormato()
   return (
     <Moldura etiqueta="wakatime.grade" estado={estado}>
       {(dados) => (
         <>
           <Indicadores dados={dados} />
           <ul className="waka-grade">
-            {limitar(dados.linguagens, 11).map((item, i) => (
+            {limitar(dados.linguagens, 11, t).map((item, i) => (
               <Celula key={item.nome} item={item} indice={i} />
             ))}
           </ul>
@@ -139,15 +144,16 @@ export function WakaGrade({ estado }) {
 
 /* ---------- 2) Fatias: uma barra dividida por linguagem + legenda ---------- */
 export function WakaLegenda({ estado }) {
+  const { t, pct } = useFormato()
   return (
     <Moldura etiqueta="wakatime.fatias" estado={estado}>
       {(dados) => {
-        const itens = limitar(dados.linguagens, 10)
+        const itens = limitar(dados.linguagens, 10, t)
         return (
           <>
             <p className="waka-resumo">
-              <strong>{formatarDuracao(dados.totalSegundos)}</strong> no total · média de{' '}
-              <strong>{formatarDuracao(dados.mediaDiaria)}</strong> por dia de código
+              <strong>{formatarDuracao(dados.totalSegundos)}</strong> {t('waka.noTotal')}{' '}
+              <strong>{formatarDuracao(dados.mediaDiaria)}</strong> {t('waka.porDia')}
             </p>
 
             <div className="waka-fatias" aria-hidden="true">
@@ -156,7 +162,7 @@ export function WakaLegenda({ estado }) {
                   key={item.nome}
                   className="waka-fatia"
                   style={{ flexGrow: item.segundos, background: estilo(item).cor }}
-                  title={`${item.nome} · ${formatarDuracao(item.segundos)} · ${formatarPercent(item.percent)}`}
+                  title={`${item.nome} · ${formatarDuracao(item.segundos)} · ${pct(item.percent)}`}
                 />
               ))}
             </div>
@@ -179,6 +185,7 @@ export function WakaLegenda({ estado }) {
 
 /* ---------- 3) Ranking: barras de XP em blocos ---------- */
 function Linha({ item, max, indice }) {
+  const { pct } = useFormato()
   const { Icone, cor } = estilo(item)
   return (
     <li className="waka-linha" style={{ '--pct': `${(item.segundos / max) * 100}%`, '--i': indice }}>
@@ -189,7 +196,7 @@ function Linha({ item, max, indice }) {
         <div className="waka-cabeca">
           <span className="waka-nome">{item.nome}</span>
           <span className="waka-tempo">{formatarDuracao(item.segundos)}</span>
-          <span className="waka-pct">{formatarPercent(item.percent)}</span>
+          <span className="waka-pct">{pct(item.percent)}</span>
         </div>
         <div className="xp" aria-hidden="true">
           <div className="xp-fill" />
@@ -200,10 +207,11 @@ function Linha({ item, max, indice }) {
 }
 
 export function WakaBarras({ estado }) {
+  const { t } = useFormato()
   return (
     <Moldura etiqueta="wakatime.ranking" estado={estado}>
       {(dados) => {
-        const itens = limitar(dados.linguagens, 8)
+        const itens = limitar(dados.linguagens, 8, t)
         const max = dados.linguagens[0]?.segundos || 1
         return (
           <ul className="waka-lista">

@@ -1,4 +1,4 @@
-.tema-barra { padding-top: 16px; display: flex; justify-content: flex-end; }
+.tema-barra { padding-top: 16px; display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 12px; }
 .tema-seletor { display: inline-flex; border: 2px solid var(--borda); background: var(--superficie); }
 .tema-opcao { display: flex; align-items: center; gap: 8px; padding: 8px 14px; color: var(--suave); font: 700 12px 'JetBrains Mono', monospace; text-transform: uppercase; }
 .tema-opcao.ativo { background: var(--destaque); color: var(--destaque-texto); }

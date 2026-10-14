@@ -2,42 +2,43 @@ import { useEffect, useState } from 'react'
 import { Container, Group, Stack, Title, Text, UnstyledButton, Kbd } from '@mantine/core'
 import './MenuPrincipal.css'
 import BannerGame from './BannerGame'
+import Velocimetro from './Velocimetro'
 import useAtalhosJogo from '../hooks/useAtalhosJogo'
 import { useTema } from '../tema/contexto'
+import { useIdioma } from '../idioma/contexto'
 
+// As fotos ficam em public/img/
 const imagemPerfil_claro = '/img/perfil-claro.png'
 const imagemPerfil_escuro = '/img/perfil-escuro.png'
 
 const perfil = {
   nome: 'Alexandre S G Ribeiro',
   iniciais: 'AR',
-  cargo: 'Estudante de Engenharia de Software',
 }
 
-const itens = [
-  { id: 'sobre', titulo: 'Sobre', descricao: 'Conheça minha história, minha formação e como encaro o desenvolvimento de software.' },
-  { id: 'projetos', titulo: 'Projetos', descricao: 'Veja o que já construí, com as tecnologias e o código de cada projeto.' },
-  { id: 'habilidades', titulo: 'Habilidades', descricao: 'Linguagens, frameworks e ferramentas que uso no dia a dia.' },
-  { id: 'contato', titulo: 'Contato', descricao: 'Fale comigo sobre estágio, projetos ou uma boa conversa sobre código.' },
-]
+// Ordem igual à de "menu.itens" em idioma/textos.js
+const IDS = ['sobre', 'projetos', 'habilidades', 'contato']
 
 export default function MenuPrincipal({ onSelect }) {
   const [ativo, setAtivo] = useState(0)
   const { tema } = useTema()
+  const { t } = useIdioma()
   const foto = tema === 'claro' ? imagemPerfil_claro : imagemPerfil_escuro
+  const itens = t('menu.itens')
+  const cargo = t('menu.cargo')
 
-  useAtalhosJogo({ onConfirmar: () => onSelect(itens[ativo].id) })
+  useAtalhosJogo({ onConfirmar: () => onSelect(IDS[ativo]) })
 
   useEffect(() => {
     const aoTeclar = (e) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault()
-        setAtivo((i) => (i + 1) % itens.length)
+        setAtivo((i) => (i + 1) % IDS.length)
       } else if (e.key === 'ArrowUp') {
         e.preventDefault()
-        setAtivo((i) => (i - 1 + itens.length) % itens.length)
+        setAtivo((i) => (i - 1 + IDS.length) % IDS.length)
       } else if (e.key === 'Enter') {
-        onSelect(itens[ativo].id)
+        onSelect(IDS[ativo])
       }
     }
     window.addEventListener('keydown', aoTeclar)
@@ -46,31 +47,31 @@ export default function MenuPrincipal({ onSelect }) {
 
   return (
     <Container size={1200} className="menu-pagina">
-      <BannerGame jogador="Alexandre" nivel="Nível 02" />
+      <BannerGame jogador="Alexandre" nivel={t('banner.nivel', { n: '02' })} />
       <Group className="menu-topo" gap="md">
         <span className="menu-avatar">
           <img src={foto} alt="" />
         </span>
         <div>
           <Text fw={700} ff="monospace">{perfil.nome}</Text>
-          <Text size="xs" c="dimmed">{perfil.cargo}</Text>
+          <Text size="xs" c="dimmed">{cargo}</Text>
         </div>
       </Group>
 
-      <Text className="menu-chamada">{perfil.nome} // {perfil.cargo}</Text>
-      <Title order={1} className="menu-titulo">Menu Principal</Title>
-      <Text size="xs" c="dimmed" className="menu-sub">Selecione seu próximo destino</Text>
+      <Text className="menu-chamada">{perfil.nome} // {cargo}</Text>
+      <Title order={1} className="menu-titulo">{t('menu.titulo')}</Title>
+      <Text size="xs" c="dimmed" className="menu-sub">{t('menu.sub')}</Text>
 
       <div className="menu-corpo">
         <Stack gap="sm" className="menu-lista" role="menu">
           {itens.map((item, i) => (
             <UnstyledButton
-              key={item.id}
+              key={IDS[i]}
               role="menuitem"
               className={`menu-item ${i === ativo ? 'ativo' : ''}`}
               onMouseEnter={() => setAtivo(i)}
               onFocus={() => setAtivo(i)}
-              onClick={() => onSelect(item.id)}
+              onClick={() => onSelect(IDS[i])}
             >
               <span className="menu-num">{String(i + 1).padStart(2, '0')}</span>
               <span className="menu-nome">{item.titulo}</span>
@@ -81,7 +82,8 @@ export default function MenuPrincipal({ onSelect }) {
 
         <div className="menu-orbita" aria-hidden="true">
           <div className="menu-disco">
-            <img className="menu-foto" src={foto} alt={`Foto de ${perfil.nome}`} />
+            <img className="menu-foto" src={foto} alt={t('menu.foto', { nome: perfil.nome })} />
+            <Velocimetro />
           </div>
         </div>
       </div>
@@ -92,17 +94,17 @@ export default function MenuPrincipal({ onSelect }) {
       </div>
 
       <Group className="menu-dicas" justify="space-between">
-        <Text size="xs" ff="monospace" c="var(--destaque-forte)">Como navegar</Text>
+        <Text size="xs" ff="monospace" c="var(--destaque-forte)">{t('menu.navegar')}</Text>
         <Group gap="lg">
-          <Group gap={6}><Kbd>↑</Kbd><Kbd>↓</Kbd><Text size="xs" c="dimmed">navegar</Text></Group>
-          <Group gap={6}><Kbd>Enter</Kbd><Kbd>x</Kbd><Text size="xs" c="dimmed">confirmar</Text></Group>
-          <Text size="xs" c="dimmed">ou passe o mouse e clique</Text>
+          <Group gap={6}><Kbd>↑</Kbd><Kbd>↓</Kbd><Text size="xs" c="dimmed">{t('menu.navegarSetas')}</Text></Group>
+          <Group gap={6}><Kbd>Enter</Kbd><Kbd>x</Kbd><Text size="xs" c="dimmed">{t('menu.confirmar')}</Text></Group>
+          <Text size="xs" c="dimmed">{t('menu.ouMouse')}</Text>
         </Group>
       </Group>
 
       <Group className="menu-rodape" justify="space-between">
         <Text size="xs" c="dimmed">© {new Date().getFullYear()} {perfil.nome}</Text>
-        <Text size="xs" c="dimmed">Estudar. Praticar. Publicar.</Text>
+        <Text size="xs" c="dimmed">{t('geral.rodape')}</Text>
       </Group>
     </Container>
   )

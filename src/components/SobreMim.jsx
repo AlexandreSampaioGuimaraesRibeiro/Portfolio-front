@@ -2,13 +2,14 @@ import { Title, Text, Group } from '@mantine/core'
 import { FaJava } from 'react-icons/fa'
 import { SiSpringboot, SiReact, SiLaravel } from 'react-icons/si'
 import TelaGame from './TelaGame'
+import { useIdioma } from '../idioma/contexto'
 import './SobreMim.css'
 
-// Troque pelos seus dados
-const resumo =
-  'Estudante de Engenharia de Software na PUC Minas, em Belo Horizonte. Desenvolvo projetos acadêmicos e pessoais com Java, React e PHP, e gosto de transformar uma ideia em algo que funciona de ponta a ponta.'
-const curriculo = 'public/curriculo/Curriculo_Portugues.pdf'
-const curriculoIngles = 'public/curriculo/Curriculo_Ingles.pdf'
+// Os textos (resumo, formação...) ficam em idioma/textos.js, nos dois idiomas.
+// Arquivos da pasta public/ são acessados sem "/public" no caminho.
+const curriculo = '/curriculo/Curriculo_Portugues.pdf'
+const curriculoIngles = '/curriculo/Curriculo_Ingles.pdf'
+
 const tags = [
   { nome: 'Java', Icone: FaJava, cor: '#ED8B00' },
   { nome: 'Spring Boot', Icone: SiSpringboot, cor: '#6DB33F' },
@@ -16,27 +17,21 @@ const tags = [
   { nome: 'Laravel', Icone: SiLaravel, cor: '#FF2D20' },
 ]
 
-const formacao = [
-  { periodo: 'Em andamento', titulo: 'Engenharia de Software', detalhe: 'PUC Minas · Bacharelado' },
-  { periodo: 'Projetos', titulo: 'Aplicações acadêmicas e pessoais', detalhe: 'Back-end, front-end e banco de dados' },
-  { periodo: 'Sempre', titulo: 'Aprendizado contínuo', detalhe: 'Cursos, documentação e prática diária' },
-]
-
 export default function SobreMim({ onVoltar }) {
+  const { t, idioma } = useIdioma()
+
   return (
-    <TelaGame titulo="Sobre mim" fase="01" onVoltar={onVoltar}>
-      <Title order={1} className="sobre-titulo">
-        Aprendendo na prática, construindo de verdade.
-      </Title>
+    <TelaGame titulo={t('sobre.titulo')} fase="01" onVoltar={onVoltar}>
+      <Title order={1} className="sobre-titulo">{t('sobre.manchete')}</Title>
 
       <div className="sobre-corpo">
         <section className="jogo-cartao">
           <p className="jogo-etiqueta">player.profile</p>
-          <Title order={2} fw={400} size="h2">Um breve resumo</Title>
-          <Text c="dimmed" className="sobre-resumo">{resumo}</Text>
+          <Title order={2} fw={400} size="h2">{t('sobre.resumoTitulo')}</Title>
+          <Text c="dimmed" className="sobre-resumo">{t('sobre.resumo')}</Text>
           <Group gap="xs" my="lg">
             {tags.map(({ nome, Icone, cor }) => (
-              <span key={nome} className="sobre-tag">
+              <span key={nome} className="sobre-tag" translate="no">
                 <span className="sobre-tag-icone">
                   <Icone size={20} color={cor} aria-hidden="true" />
                 </span>
@@ -44,12 +39,19 @@ export default function SobreMim({ onVoltar }) {
               </span>
             ))}
           </Group>
-          <a className="jogo-botao" href={curriculo} target="_blank" rel="noreferrer">Abrir currículo completo →</a>
+          <a
+            className="jogo-botao"
+            href={idioma === 'en' ? curriculoIngles : curriculo}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {t('sobre.curriculo')} →
+          </a>
         </section>
 
         <section>
           <p className="jogo-etiqueta">formacao.log</p>
-          {formacao.map((item) => (
+          {t('sobre.formacao').map((item) => (
             <div className="sobre-linha" key={item.titulo}>
               <span className="sobre-periodo">{item.periodo}</span>
               <div>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { HABILIDADES } from '../data/habilidadesGlobo'
+import { useIdioma } from '../idioma/contexto'
 import './GloboHabilidades.css'
 
 const VELOCIDADE_AUTO = 0.004 // rotação automática (radianos por quadro)
@@ -55,8 +56,9 @@ const ESTRELAS = [0, 1, 2, 3].flatMap((lado) =>
 
 /* Centro do globo no tema NOTURNO: roda de carro, que gira junto com o globo */
 function Roda() {
+  const { t } = useIdioma()
   return (
-    <svg viewBox="0 0 200 200" role="img" aria-label="Roda de carro">
+    <svg viewBox="0 0 200 200" role="img" aria-label={t('globo.roda')}>
       <defs>
         <linearGradient id="roda-metal" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#f1f4f9" />
@@ -85,8 +87,9 @@ function Roda() {
 
 /* Centro do globo no tema CLARO: esfera laranja de quatro estrelas, que gira junto com o globo */
 function Esfera({ refsEstrelas }) {
+  const { t } = useIdioma()
   return (
-    <svg viewBox="0 0 200 200" role="img" aria-label="Esfera de quatro estrelas">
+    <svg viewBox="0 0 200 200" role="img" aria-label={t('globo.esfera')}>
       <defs>
         <radialGradient id="esfera-fundo" cx="32%" cy="28%" r="80%">
           <stop offset="0" stopColor="#ffd27a" />
@@ -109,6 +112,7 @@ function Esfera({ refsEstrelas }) {
 }
 
 export default function GloboHabilidades() {
+  const { t } = useIdioma()
   const palco = useRef(null)
   const itens = useRef([])
   const rodaRef = useRef(null)
@@ -258,7 +262,7 @@ export default function GloboHabilidades() {
             target="_blank"
             rel="noreferrer"
             draggable="false"
-            aria-label={`Saiba mais sobre ${nome} (abre em nova aba)`}
+            aria-label={t('globo.saibaMais', { nome })}
           >
             <span className="globo-icone">
               <Icone size={28} color={cor} aria-hidden="true" />
@@ -268,7 +272,7 @@ export default function GloboHabilidades() {
         ))}
       </div>
 
-      <p className="globo-dica">Arraste para girar · clique em um ícone para saber mais</p>
+      <p className="globo-dica">{t('globo.dica')}</p>
     </section>
   )
 }
