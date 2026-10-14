@@ -184,11 +184,11 @@ export function WakaLegenda({ estado }) {
 }
 
 /* ---------- 3) Ranking: barras de XP em blocos ---------- */
-function Linha({ item, max, indice }) {
+function Linha({ item, indice }) {
   const { pct } = useFormato()
   const { Icone, cor } = estilo(item)
   return (
-    <li className="waka-linha" style={{ '--pct': `${(item.segundos / max) * 100}%`, '--i': indice }}>
+    <li className="waka-linha" style={{ '--pct': `${Math.min(100, Math.max(0, item.percent))}%`, '--i': indice }}>
       <span className="waka-icone">
         <Icone size={22} color={cor} aria-hidden="true" />
       </span>
@@ -212,11 +212,10 @@ export function WakaBarras({ estado }) {
     <Moldura etiqueta="wakatime.ranking" estado={estado}>
       {(dados) => {
         const itens = limitar(dados.linguagens, 8, t)
-        const max = dados.linguagens[0]?.segundos || 1
         return (
           <ul className="waka-lista">
             {itens.map((item, i) => (
-              <Linha key={item.nome} item={item} max={max} indice={i} />
+              <Linha key={item.nome} item={item} indice={i} />
             ))}
           </ul>
         )
