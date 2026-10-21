@@ -15,6 +15,16 @@ export const TEXTOS = {
       esferas: '7 esferas',
     },
     tela: { voltar: 'Menu principal' },
+    curriculo: {
+      titulo: 'Currículo',
+      idioma: 'Idioma do currículo',
+      baixar: 'Baixar PDF',
+      novaAba: 'Abrir em nova aba',
+      maisZoom: 'Aumentar zoom',
+      menosZoom: 'Diminuir zoom',
+      carregando: 'Carregando currículo...',
+      erro: 'Não foi possível exibir o currículo aqui.',
+    },
     tema: { grupo: 'Tema do site', noturno: 'Noturno', claro: 'Claro' },
     idioma: { grupo: 'Idioma' },
     menu: {
@@ -137,6 +147,16 @@ export const TEXTOS = {
       esferas: '7 spheres',
     },
     tela: { voltar: 'Main menu' },
+    curriculo: {
+      titulo: 'Résumé',
+      idioma: 'Résumé language',
+      baixar: 'Download PDF',
+      novaAba: 'Open in new tab',
+      maisZoom: 'Zoom in',
+      menosZoom: 'Zoom out',
+      carregando: 'Loading résumé...',
+      erro: 'Could not display the résumé here.',
+    },
     tema: { grupo: 'Site theme', noturno: 'Dark', claro: 'Light' },
     idioma: { grupo: 'Language' },
     menu: {

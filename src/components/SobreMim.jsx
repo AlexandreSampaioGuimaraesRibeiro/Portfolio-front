@@ -1,18 +1,18 @@
+import { useState } from 'react'
 import { Title, Text, Group } from '@mantine/core'
 import TelaGame from './TelaGame'
 import Tecnologia from './Tecnologia'
+import CurriculoModal from './CurriculoModal'
 import { useIdioma } from '../idioma/contexto'
 import './SobreMim.css'
 
 // Os textos (resumo, formação...) ficam em idioma/textos.js, nos dois idiomas.
-// Arquivos da pasta public/ são acessados sem "/public" no caminho.
-const curriculo = '/curriculo/Curriculo_Portugues.pdf'
-const curriculoIngles = '/curriculo/Curriculo_Ingles.pdf'
-
+// Os PDFs do currículo ficam em config/curriculo.js.
 const tags = ['Java', 'Spring Boot', 'React', 'Laravel']
 
 export default function SobreMim({ onVoltar }) {
-  const { t, idioma } = useIdioma()
+  const { t } = useIdioma()
+  const [curriculoAberto, setCurriculoAberto] = useState(false)
 
   return (
     <TelaGame titulo={t('sobre.titulo')} fase="01" onVoltar={onVoltar}>
@@ -28,14 +28,9 @@ export default function SobreMim({ onVoltar }) {
               <Tecnologia key={nome} nome={nome} />
             ))}
           </Group>
-          <a
-            className="jogo-botao"
-            href={idioma === 'en' ? curriculoIngles : curriculo}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <button type="button" className="jogo-botao" style={{ cursor: 'pointer' }} onClick={() => setCurriculoAberto(true)}>
             {t('sobre.curriculo')} →
-          </a>
+          </button>
         </section>
 
         <section>
@@ -51,6 +46,8 @@ export default function SobreMim({ onVoltar }) {
           ))}
         </section>
       </div>
+
+      <CurriculoModal aberto={curriculoAberto} aoFechar={() => setCurriculoAberto(false)} />
     </TelaGame>
   )
 }
