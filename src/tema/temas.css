@@ -35,7 +35,7 @@
 :root[data-tema="claro"] {
   color-scheme: light;
   --fundo: #dff3ff;
-  --superficie: #ffffff;
+  --superficie: rgba(255, 255, 255, .9);
   --campo: #f1f8ff;
   --borda: #14213d;
   --texto: #14213d;
@@ -57,11 +57,7 @@
   --disco-borda: #14213d;
   --disco-texto: #14213d;
   --disco-fundo: radial-gradient(circle at 32% 28%, #ffd27a, #ff8a00 55%, #d46a00);
-  --fundo-corpo:
-    radial-gradient(ellipse 220px 70px at 12% 18%, #fff 0 60%, transparent 62%),
-    radial-gradient(ellipse 280px 80px at 82% 28%, #fff 0 60%, transparent 62%),
-    radial-gradient(ellipse 200px 60px at 55% 8%, #fff 0 60%, transparent 62%),
-    linear-gradient(#7fcdf8, #cfeeff 55%, #fff3d6);
+  --fundo-corpo: linear-gradient(#7fcdf8, #cfeeff 55%, #fff3d6);
 }
 
 /* ===== Banner: decoração de cada tema ===== */

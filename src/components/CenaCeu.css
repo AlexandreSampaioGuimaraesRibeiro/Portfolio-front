@@ -1,0 +1,41 @@
+.cena-ceu { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+:root:not([data-tema="claro"]) .cena-ceu { display: none; }
+
+/* Nuvens: passam devagar da esquerda para a direita (o personagem voa para a esquerda) */
+.cena-nuvem { position: absolute; left: 0; will-change: transform; animation: passar var(--dur) linear var(--atraso) infinite; }
+.cena-nuvem svg { display: block; width: 100%; height: auto; }
+@keyframes passar { from { transform: translateX(-40vw); } to { transform: translateX(140vw); } }
+
+/* Personagem: sobe e desce sobre a nuvem, com uma leve inclinação */
+.cena-personagem { position: absolute; right: 1vw; bottom: 8vh; width: clamp(260px, 30vw, 470px); }
+.cena-personagem img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform-origin: 60% 85%;
+  filter: drop-shadow(0 18px 18px rgba(20, 33, 61, .18));
+  will-change: transform;
+  animation: flutuar 4.2s ease-in-out infinite;
+}
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0) rotate(-1.2deg); }
+  50% { transform: translateY(-22px) rotate(1deg); }
+}
+
+/* Vento: riscos rápidos cruzando a tela */
+.cena-vento {
+  position: absolute;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #fff 40%, #fff 60%, transparent);
+  will-change: transform;
+  animation: vento var(--dur) linear var(--atraso) infinite;
+}
+@keyframes vento { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cena-nuvem { animation: none; left: var(--x); }
+  .cena-personagem img { animation: none; }
+  .cena-vento { display: none; }
+}
