@@ -11,8 +11,10 @@ export const TEXTOS = {
       fase: 'Fase {n}',
       piloto: 'Piloto',
       guerreiro: 'Guerreiro',
+      atleticano: 'Atleticano',
       combustivel: 'combustível: 4 de 5',
       esferas: '7 esferas',
+      estrelas: '3 estrelas',
     },
     tela: { voltar: 'Menu principal' },
     curriculo: {
@@ -25,7 +27,7 @@ export const TEXTOS = {
       carregando: 'Carregando currículo...',
       erro: 'Não foi possível exibir o currículo aqui.',
     },
-    tema: { grupo: 'Tema do site', noturno: 'Noturno', claro: 'Claro' },
+    tema: { grupo: 'Tema do site', noturno: 'Noturno', claro: 'Claro', galo: 'Galo' },
     idioma: { grupo: 'Idioma' },
     menu: {
       cargo: 'Estudante de Engenharia de Software',
@@ -109,6 +111,7 @@ export const TEXTOS = {
       dica: 'Arraste para girar · clique em um ícone para saber mais',
       roda: 'Roda de carro',
       esfera: 'Esfera de quatro estrelas',
+      escudo: 'Escudo do Clube Atlético Mineiro',
     },
     contato: {
       tela: 'Contato',
@@ -143,8 +146,10 @@ export const TEXTOS = {
       fase: 'Stage {n}',
       piloto: 'Driver',
       guerreiro: 'Warrior',
+      atleticano: 'Fan',
       combustivel: 'fuel: 4 of 5',
       esferas: '7 spheres',
+      estrelas: '3 stars',
     },
     tela: { voltar: 'Main menu' },
     curriculo: {
@@ -157,7 +162,7 @@ export const TEXTOS = {
       carregando: 'Loading résumé...',
       erro: 'Could not display the résumé here.',
     },
-    tema: { grupo: 'Site theme', noturno: 'Dark', claro: 'Light' },
+    tema: { grupo: 'Site theme', noturno: 'Dark', claro: 'Light', galo: 'Galo' },
     idioma: { grupo: 'Language' },
     menu: {
       cargo: 'Software Engineering student',
@@ -241,6 +246,7 @@ export const TEXTOS = {
       dica: 'Drag to rotate · click an icon to learn more',
       roda: 'Car wheel',
       esfera: 'Four-star sphere',
+      escudo: 'Clube Atlético Mineiro crest',
     },
     contato: {
       tela: 'Contact',

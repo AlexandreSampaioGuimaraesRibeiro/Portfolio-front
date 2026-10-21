@@ -11,13 +11,15 @@ export default function BannerGame({ jogador = 'Player 01', nivel, titulo, dica 
       <div className="banner-hud">
         <span>
           <span className="so-escuro">{t('banner.piloto')}</span>
-          <span className="so-claro">{t('banner.guerreiro')}</span>{' '}
+          <span className="so-claro">{t('banner.guerreiro')}</span>
+          <span className="so-galo">{t('banner.atleticano')}</span>{' '}
           <strong>{jogador}</strong>
         </span>
 
         <span className="banner-vidas">
           <span className="so-escuro" role="img" aria-label={t('banner.combustivel')}>▮ ▮ ▮ ▮ ▯</span>
           <span className="so-claro" role="img" aria-label={t('banner.esferas')}>● ● ● ● ● ● ●</span>
+          <span className="so-galo" role="img" aria-label={t('banner.estrelas')}>★ ★ ★</span>
         </span>
 
         <span>{nivel ?? t('banner.nivel', { n: '02' })}</span>

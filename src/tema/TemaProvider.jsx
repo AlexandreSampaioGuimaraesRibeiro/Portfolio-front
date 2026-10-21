@@ -8,7 +8,7 @@ const CHAVE = 'portfolio-tema'
 function temaInicial() {
   try {
     const salvo = localStorage.getItem(CHAVE)
-    if (salvo === 'claro' || salvo === 'escuro') return salvo
+    if (salvo === 'claro' || salvo === 'escuro' || salvo === 'galo') return salvo
   } catch {
     /* sem acesso ao localStorage: segue para o padrão */
   }

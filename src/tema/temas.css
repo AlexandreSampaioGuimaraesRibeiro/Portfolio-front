@@ -95,11 +95,13 @@
 }
 
 /* ===== Conteúdo exclusivo de cada tema (troca instantânea, sem recarregar) ===== */
-:root[data-tema="claro"] .so-escuro { display: none; }
+:root[data-tema="claro"] .so-escuro,
+:root[data-tema="galo"] .so-escuro { display: none; }
 :root:not([data-tema="claro"]) .so-claro { display: none; }
+:root:not([data-tema="galo"]) .so-galo { display: none; }
 
 /* ===== Fundo do tema noturno: foto da cidade à noite ===== */
-:root:not([data-tema="claro"]) body::before {
+:root:not([data-tema="claro"]):not([data-tema="galo"]) body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -113,4 +115,68 @@
 /* vidro fosco: as superfícies translúcidas deixam a foto aparecer sem atrapalhar a leitura */
 :root:not([data-tema="claro"]) :is(.jogo-cartao, .banner, .menu-item, .menu-descricao, .tema-seletor, .jogo-voltar) {
   backdrop-filter: blur(6px);
+}
+
+/* ===== Tema GALO: preto e branco com detalhes em amarelo dourado ===== */
+:root[data-tema="galo"] {
+  color-scheme: dark;
+  --fundo: #050505;
+  --superficie: rgba(10, 10, 10, .88);
+  --campo: #080808;
+  --borda: #6a6a6a;
+  --texto: #f7f7f7;
+  --suave: #b0b0b0;
+  --destaque: #facf01;
+  --destaque-forte: #facf01;
+  --destaque-texto: #0a0a0a;
+  --secundaria: #f7f7f7;
+  --vidas: #facf01;
+  --erro: #ff6b6b;
+  --sombra-botao: #8c7300;
+  --grade: transparent;
+  --fonte-display: 'Bebas Neue', 'Impact', sans-serif;
+  --tam-titulo: clamp(2.6rem, 9vw, 5.6rem);
+  --tam-menu-titulo: clamp(3rem, 9vw, 7rem);
+  --tam-etiqueta: 17px;
+  --peso-titulo: 400;
+  --espaco-titulo: 0.04em;
+  --disco-borda: #facf01;
+  --disco-texto: #f7f7f7;
+  --disco-fundo:
+    radial-gradient(circle, #080808 0 64%, transparent 65%),
+    repeating-conic-gradient(#f7f7f7 0 9deg, #0a0a0a 9deg 18deg),
+    #080808;
+  --fundo-corpo: var(--fundo);
+}
+
+/* fundo: o mural do galo, escurecido para o texto continuar legível */
+:root[data-tema="galo"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, .82)),
+    url('/img/galo-fundo.webp') center 40% / cover no-repeat;
+}
+
+/* banner com listras verticais, como a camisa */
+:root[data-tema="galo"] .banner::after {
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .07) 0 26px, transparent 26px 52px);
+}
+
+/* estrela dourada no topo do disco da foto */
+:root[data-tema="galo"] .menu-disco::before {
+  content: "★";
+  position: absolute;
+  top: 3%;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  text-align: center;
+  color: var(--destaque);
+  font-size: 1.7rem;
+  line-height: 1;
+  text-shadow: 0 0 6px #000, 0 0 2px #000;
 }

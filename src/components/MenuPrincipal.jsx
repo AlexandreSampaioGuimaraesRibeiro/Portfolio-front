@@ -10,6 +10,7 @@ import { useIdioma } from '../idioma/contexto'
 // As fotos ficam em public/img/
 const imagemPerfil_claro = '/img/perfil-claro.png'
 const imagemPerfil_escuro = '/img/perfil-escuro.png'
+const imagemPerfil_galo = '/img/perfil-galo.webp'
 
 const perfil = {
   nome: 'Alexandre S G Ribeiro',
@@ -23,7 +24,7 @@ export default function MenuPrincipal({ onSelect }) {
   const [ativo, setAtivo] = useState(0)
   const { tema } = useTema()
   const { t } = useIdioma()
-  const foto = tema === 'claro' ? imagemPerfil_claro : imagemPerfil_escuro
+  const foto = { claro: imagemPerfil_claro, galo: imagemPerfil_galo }[tema] ?? imagemPerfil_escuro
   const itens = t('menu.itens')
   const cargo = t('menu.cargo')
 

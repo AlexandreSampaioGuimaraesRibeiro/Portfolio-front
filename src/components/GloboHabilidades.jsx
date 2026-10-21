@@ -116,6 +116,7 @@ export default function GloboHabilidades() {
   const palco = useRef(null)
   const itens = useRef([])
   const rodaRef = useRef(null)
+  const escudoRef = useRef(null)
   const estrelasRef = useRef([])
   const pontos = useMemo(() => pontosNaEsfera(HABILIDADES.length), [])
 
@@ -145,6 +146,9 @@ export default function GloboHabilidades() {
       // centro: a roda gira em torno do próprio eixo e a esfera vira junto com os ícones
       if (rodaRef.current) {
         rodaRef.current.style.transform = `perspective(900px) rotateX(${(e.ax * 0.6).toFixed(3)}rad) rotateZ(${e.ay.toFixed(3)}rad)`
+      }
+      if (escudoRef.current) {
+        escudoRef.current.style.transform = `perspective(900px) rotateX(${(e.ax * 0.4).toFixed(3)}rad) rotateY(${e.ay.toFixed(3)}rad)`
       }
       ESTRELAS.forEach(({ centro, vertices }, i) => {
         const no = estrelasRef.current[i]
@@ -251,6 +255,10 @@ export default function GloboHabilidades() {
         <div className="globo-nucleo">
           <span className="so-escuro" ref={rodaRef}><Roda /></span>
           <span className="so-claro"><Esfera refsEstrelas={estrelasRef} /></span>
+          <span className="so-galo" ref={escudoRef}>
+            <img className="escudo-face" src="/img/escudo-cam.webp" alt={t('globo.escudo')} draggable="false" />
+            <img className="escudo-face escudo-verso" src="/img/escudo-cam.webp" alt="" aria-hidden="true" draggable="false" />
+          </span>
         </div>
 
         {HABILIDADES.map(({ nome, Icone, cor, link }, i) => (
