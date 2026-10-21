@@ -12,6 +12,8 @@ export default function useAtalhosJogo({ onVoltar, onConfirmar } = {}) {
       // ignora Ctrl/Cmd/Alt, tecla segurada e digitação em campos de texto
       if (e.ctrlKey || e.metaKey || e.altKey || e.repeat) return
       if (e.target.closest?.(CAMPOS)) return
+      // com uma janela aberta (ex.: o currículo), Y e X não valem
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return
 
       const tecla = e.key.toLowerCase()
 

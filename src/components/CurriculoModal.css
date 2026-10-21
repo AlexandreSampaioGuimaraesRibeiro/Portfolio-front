@@ -1,0 +1,7 @@
+/* a janela é sólida (as superfícies do tema são translúcidas) */
+.cv-modal { background: var(--campo); color: var(--texto); border: 3px solid var(--borda); border-radius: 0; box-shadow: 8px 8px 0 var(--destaque); }
+.cv-modal-topo { background: var(--campo); border-bottom: 2px dashed var(--borda); padding: 12px 16px; }
+.cv-modal-titulo { font: 700 14px var(--fonte-display); text-transform: uppercase; color: var(--destaque-forte); }
+.cv-modal-corpo { padding: 0; }
+.cv-modal-fechar { color: var(--texto); border-radius: 0; }
+.cv-modal-fechar:hover { background: color-mix(in srgb, var(--destaque) 20%, transparent); }
