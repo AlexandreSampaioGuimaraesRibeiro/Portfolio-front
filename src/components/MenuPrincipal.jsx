@@ -18,7 +18,7 @@ const perfil = {
 }
 
 // Ordem igual à de "menu.itens" em idioma/textos.js
-const IDS = ['sobre', 'projetos', 'habilidades', 'contato']
+const IDS = ['sobre', 'projetos', 'habilidades', 'comentarios', 'contato']
 
 export default function MenuPrincipal({ onSelect }) {
   const [ativo, setAtivo] = useState(0)
