@@ -7,12 +7,14 @@ import MenuPrincipal from './components/MenuPrincipal'
 import SobreMim from './components/SobreMim'
 import Projetos from './components/Projetos'
 import Habilidades from './components/Habilidades'
+import Comentarios from './components/Comentarios'
 import Contato from './components/Contato'
 
 const telas = {
   sobre: SobreMim,
   projetos: Projetos,
   habilidades: Habilidades,
+  comentarios: Comentarios,
   contato: Contato,
 }
 

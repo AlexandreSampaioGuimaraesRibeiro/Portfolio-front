@@ -1,0 +1,15 @@
+.com-grade { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: start; }
+.com-contador { margin: 6px 0 0; text-align: right; font: 12px 'JetBrains Mono', monospace; color: var(--suave); }
+.com-status { margin: 0 0 16px; color: var(--suave); line-height: 1.6; }
+.com-status.erro { color: var(--erro); }
+
+.com-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.com-item { display: flex; gap: 14px; padding: 16px; border: 2px solid var(--borda); background: var(--superficie); }
+.com-avatar { flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: var(--destaque); color: var(--destaque-texto); font: 400 22px var(--fonte-display); border-radius: 10px; }
+.com-corpo { min-width: 0; flex: 1; }
+.com-cabeca { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.com-nome { overflow-wrap: anywhere; }
+.com-data { flex: none; font: 12px 'JetBrains Mono', monospace; color: var(--suave); }
+.com-texto { margin: 0; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+@media (max-width: 860px) { .com-grade { grid-template-columns: 1fr; gap: 40px; } }

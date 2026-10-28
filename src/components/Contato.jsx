@@ -85,7 +85,7 @@ export default function Contato({ onVoltar }) {
   const classes = { input: 'contato-input', label: 'contato-label' }
 
   return (
-    <TelaGame titulo={t('contato.tela')} fase="04" onVoltar={onVoltar}>
+    <TelaGame titulo={t('contato.tela')} fase="05" onVoltar={onVoltar}>
       <div className="contato-grade">
         <section>
           <Title order={1} className="contato-titulo">{t('contato.titulo')}</Title>
