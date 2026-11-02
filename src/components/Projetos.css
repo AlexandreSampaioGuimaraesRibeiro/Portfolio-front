@@ -1,0 +1,4 @@
+.proj-horas { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; padding: 0; font-size: 14px; }
+.proj-horas strong { color: var(--destaque-forte); }
+.proj-horas-rotulo { color: var(--suave); }
+.proj-horas.vazio { color: var(--suave); font-style: italic; }

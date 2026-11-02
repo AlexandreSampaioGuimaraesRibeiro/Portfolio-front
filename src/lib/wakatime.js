@@ -28,6 +28,7 @@ function normalizar(d) {
     melhorDia: d.best_day ? { data: d.best_day.date, segundos: d.best_day.total_seconds } : null,
     linguagens: lista(d.languages),
     editores: lista(d.editors),
+    projetos: lista(d.projects),
   }
 }
 
