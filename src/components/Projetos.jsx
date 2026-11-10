@@ -40,7 +40,14 @@ const projetos = [
     badge:
       'https://wakatime.com/badge/user/acc8534a-d626-49d6-a547-13e31d679ecf/project/4145749d-3464-4753-9566-264c31100eca.svg',
     prints: ['/img/breakingBet/Print_01_breakingBet.png',
-      '/img/breakingBet/Print_02_breakingBet.png'],
+      '/img/breakingBet/Print_02_breakingBet.png',
+      '/img/breakingBet/Print_03_breakingBet.png',
+      '/img/breakingBet/Print_04_breakingBet.png',
+      '/img/breakingBet/Print_05_breakingBet.png',
+      '/img/breakingBet/Print_06_breakingBet.png',
+      '/img/breakingBet/Print_07_breakingBet.png',
+      '/img/breakingBet/Print_08_breakingBet.png',
+      '/img/breakingBet/Print_09_breakingBet.png',],
   },
   {
     nome: 'Portfolio',
