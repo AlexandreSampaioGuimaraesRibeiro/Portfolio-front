@@ -80,11 +80,11 @@ const projetos = [
     wakatime: 'Sistema_de_Aluguel_de_Carros',
     badge: 'https://wakatime.com/badge/user/acc8534a-d626-49d6-a547-13e31d679ecf/project/c74e3f01-9565-443a-93bf-908254db4087.svg',
     repo: 'https://github.com/AlexandreSampaioGuimaraesRibeiro/Sistema_de_Aluguel_de_Carros.git',
-    prints: ['/img/SistemaAluguelCarros/Print_01_sistemaAluguelCarros.png',
-      '/img/SistemaAluguelCarros/Print_02_sistemaAluguelCarros.png',
-      '/img/SistemaAluguelCarros/Print_03_sistemaAluguelCarros.png',
-      '/img/SistemaAluguelCarros/Print_04_sistemaAluguelCarros.png',
-      '/img/SistemaAluguelCarros/Print_05_sistemaAluguelCarros.png',],
+    prints: ['/img/Sistema_de_Aluguel_de_Carros/Print_01_sistemaAluguelCarros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_02_sistemaAluguelCarros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_03_sistemaAluguelCarros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_04_sistemaAluguelCarros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_05_sistemaAluguelCarros.png',],
   },
 ]
 
