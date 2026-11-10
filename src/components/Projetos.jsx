@@ -34,7 +34,7 @@ const projetos = [
   },
   {
     nome: 'Breaking Bet',
-    tecnologias: ['React', 'Mantine', 'Vite'],
+    tecnologias: ['React', 'Mantine', 'Vite','Mongoose','Spring Boot'],
     repo: 'https://github.com/ICEI-PUC-Minas-PPLES-TI/plf-es-2026-2-ti2-7587100-breaking-bet',
     wakatime: 'plf-es-2026-2-ti2-7587100-breaking-bet',
     badge:
@@ -61,6 +61,18 @@ const projetos = [
       '/img/portfolio/Print_04_portfolio.png',
       '/img/portfolio/Print_05_portfolio.png',
       '/img/portfolio/Print_06_portfolio.png',],
+  },
+  {
+    nome: 'Pokedex',
+    tecnologias: ['React', 'Mantine', 'Vite'],
+    wakatime: null,
+    repo: 'https://github.com/AlexandreSampaioGuimaraesRibeiro/diaw/tree/main/Pokedex',
+    prints: ['/img/pokedex/Print_01_pokedex.png',
+      '/img/pokedex/Print_02_pokedex.png',
+      '/img/pokedex/Print_03_pokedex.png',
+      '/img/pokedex/Print_04_pokedex.png',
+      '/img/pokedex/Print_05_pokedex.png',
+      '/img/pokedex/Print_06_pokedex.png',],
   },
 ]
 
