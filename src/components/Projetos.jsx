@@ -9,10 +9,9 @@ import { useIdioma } from '../idioma/contexto'
 import './Projetos.css'
 
 // As descrições ficam em idioma/textos.js (projetos.descricoes), na mesma ordem desta lista.
-//  - repo: link do código (o botão só aparece se estiver preenchido)
-//  - wakatime: nome do projeto no WakaTime. Use null nos projetos feitos antes de usar o WakaTime.
-//  - horas: (opcional) horas informadas por você. Tem prioridade sobre o WakaTime.
-//  - badge: (opcional) imagem do badge do WakaTime, usada quando não há horas nem dados da API.
+//  - repo: link do código
+//  - wakatime: nome do projeto no WakaTime.Null para projetos feitos antes de usar o WakaTime.
+//  - badge: (opcional) imagem do badge do WakaTime, usada quando há horas nem dados da API.
 //  - prints: imagens em public/img/projetos/
 const projetos = [
   {
@@ -80,11 +79,11 @@ const projetos = [
     wakatime: 'Sistema_de_Aluguel_de_Carros',
     badge: 'https://wakatime.com/badge/user/acc8534a-d626-49d6-a547-13e31d679ecf/project/c74e3f01-9565-443a-93bf-908254db4087.svg',
     repo: 'https://github.com/AlexandreSampaioGuimaraesRibeiro/Sistema_de_Aluguel_de_Carros.git',
-    prints: ['/img/Sistema_de_Aluguel_de_Carros/Print_01_sistemaAluguelCarros.png',
-      '/img/Sistema_de_Aluguel_de_Carros/Print_02_sistemaAluguelCarros.png',
-      '/img/Sistema_de_Aluguel_de_Carros/Print_03_sistemaAluguelCarros.png',
-      '/img/Sistema_de_Aluguel_de_Carros/Print_04_sistemaAluguelCarros.png',
-      '/img/Sistema_de_Aluguel_de_Carros/Print_05_sistemaAluguelCarros.png',],
+    prints: ['/img/Sistema_de_Aluguel_de_Carros/Print_01_Sistema_de_Aluguel_de_Carros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_02_Sistema_de_Aluguel_de_Carros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_03_Sistema_de_Aluguel_de_Carros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_04_Sistema_de_Aluguel_de_Carros.png',
+      '/img/Sistema_de_Aluguel_de_Carros/Print_05_Sistema_de_Aluguel_de_Carros.png',],
   },
 ]
 
