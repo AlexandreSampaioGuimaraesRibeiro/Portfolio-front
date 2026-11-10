@@ -64,7 +64,7 @@ const projetos = [
   {
     nome: 'Pokedex',
     tecnologias: ['React', 'Mantine', 'Vite'],
-    wakatime: null,
+    wakatime: 'Feito dentro de uma pasta com varios projetos, não aparece no WakaTime',
     repo: 'https://github.com/AlexandreSampaioGuimaraesRibeiro/diaw/tree/main/Pokedex',
     prints: ['/img/pokedex/Print_01_pokedex.png',
       '/img/pokedex/Print_02_pokedex.png',
