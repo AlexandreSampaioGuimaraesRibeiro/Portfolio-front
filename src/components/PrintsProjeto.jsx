@@ -3,6 +3,7 @@ import { Modal } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconChevronLeft, IconChevronRight, IconPhoto } from '@tabler/icons-react'
 import { useIdioma } from '../idioma/contexto'
+import useVoltarFechaJanela from '../hooks/useVoltarFechaJanela'
 import './PrintsProjeto.css'
 
 // Cada print pode ser só o endereço da imagem ou { src, pt, en } (com a legenda em cada idioma)
@@ -20,6 +21,8 @@ export default function PrintsProjeto({ nome, prints = [] }) {
   const legenda = (p) => (idioma === 'en' ? (p.en ?? p.pt) : (p.pt ?? p.en))
   const textoAlt = (p) => legenda(p) ?? t('projetos.printAlt', { nome })
   const marcarQuebrada = (src) => setQuebradas((atual) => ({ ...atual, [src]: true }))
+
+  useVoltarFechaJanela(aberto !== null, () => setAberto(null)) // o voltar do navegador/celular fecha o print
 
   // ← e → trocam de print com a imagem ampliada
   useEffect(() => {

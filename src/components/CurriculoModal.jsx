@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Modal } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { useIdioma } from '../idioma/contexto'
+import useVoltarFechaJanela from '../hooks/useVoltarFechaJanela'
 import './CurriculoModal.css'
 
 // O visualizador (react-pdf + pdf.js) é pesado: só é baixado na primeira vez que o currículo é aberto
@@ -10,6 +11,7 @@ const VisualizadorCurriculo = lazy(() => import('./VisualizadorCurriculo'))
 export default function CurriculoModal({ aberto, aoFechar }) {
   const { t } = useIdioma()
   const celular = useMediaQuery('(max-width: 640px)')
+  useVoltarFechaJanela(aberto, aoFechar) // o voltar do navegador/celular fecha o currículo
 
   return (
     <Modal
