@@ -3,6 +3,7 @@ import { Modal } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { useIdioma } from '../idioma/contexto'
 import useVoltarFechaJanela from '../hooks/useVoltarFechaJanela'
+import CarregandoTema from './CarregandoTema'
 import './CurriculoModal.css'
 
 // O visualizador (react-pdf + pdf.js) é pesado: só é baixado na primeira vez que o currículo é aberto
@@ -24,7 +25,7 @@ export default function CurriculoModal({ aberto, aoFechar }) {
       padding={0}
       classNames={{ content: 'cv-modal', header: 'cv-modal-topo', title: 'cv-modal-titulo', body: 'cv-modal-corpo', close: 'cv-modal-fechar' }}
     >
-      <Suspense fallback={<p className="cv-status" role="status">{t('curriculo.carregando')}</p>}>
+      <Suspense fallback={<CarregandoTema />}>
         <VisualizadorCurriculo />
       </Suspense>
     </Modal>

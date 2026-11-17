@@ -1,0 +1,46 @@
+.carr { width: 100%; padding: 24px 16px; text-align: center; }
+.carr-palco { position: relative; width: 100%; height: 190px; overflow: hidden; border: 2px solid var(--borda); }
+.carr-cena { position: absolute; inset: 0; }
+.carr-texto { margin: 14px 0 0; color: var(--suave); font: 700 12px 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+
+/* ----- Noturno: carro passando ----- */
+.carr-noturno { background: linear-gradient(#050a0c, #0b171b); }
+.carr-estrada { position: absolute; left: 0; right: 0; bottom: 38px; height: 3px; background: repeating-linear-gradient(90deg, var(--destaque) 0 24px, transparent 24px 56px); opacity: .55; animation: carr-estrada .45s linear infinite; }
+.carr-carro { position: absolute; bottom: 36px; left: -30%; width: 200px; height: auto; animation: carr-passa 3.2s linear infinite; }
+.carr-roda { animation: carr-gira .5s linear infinite; }
+
+/* ----- Claro: personagem na nuvem ----- */
+.carr-claro { background: linear-gradient(#7fcdf8, #d9f1ff 75%, #fff3d6); }
+.carr-goku { position: absolute; bottom: 14px; left: 105%; width: 140px; height: auto; animation: carr-goku 3.8s linear infinite, carr-flutua 1.4s ease-in-out infinite; transform-origin: 60% 85%; }
+.carr-nuvem { position: absolute; left: -30%; width: 70px; height: 22px; border-radius: 999px; background: #fff; box-shadow: 22px -9px 0 3px #fff, 46px 2px 0 0 #fff; opacity: .85; animation: carr-nuvem 9s linear infinite; }
+.carr-nuvem.n0 { top: 22px; }
+.carr-nuvem.n1 { top: 70px; animation-duration: 12s; animation-delay: -5s; opacity: .7; }
+.carr-nuvem.n2 { top: 118px; animation-duration: 7s; animation-delay: -2s; }
+.carr-vento { position: absolute; left: -20%; height: 2px; border-radius: 2px; background: linear-gradient(90deg, transparent, #fff 40%, #fff 60%, transparent); animation: carr-vento 1.5s linear infinite; }
+.carr-vento.v0 { top: 30px; width: 140px; }
+.carr-vento.v1 { top: 66px; width: 100px; animation-delay: -.5s; animation-duration: 1.8s; }
+.carr-vento.v2 { top: 112px; width: 160px; animation-delay: -1s; }
+.carr-vento.v3 { top: 150px; width: 110px; animation-delay: -.3s; animation-duration: 2.1s; }
+
+/* ----- Galo: escudo girando como uma moeda ----- */
+.carr-galo { display: grid; place-items: center; perspective: 700px; background: repeating-linear-gradient(90deg, #0a0a0a 0 28px, #141414 28px 56px); }
+.carr-moeda { position: relative; width: 86px; height: 128px; transform-style: preserve-3d; animation: carr-moeda 2.4s linear infinite; }
+.carr-face { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; backface-visibility: hidden; }
+.carr-verso { transform: rotateY(180deg); }
+
+@keyframes carr-passa { from { left: -30%; } to { left: 108%; } }
+@keyframes carr-estrada { to { background-position-x: -56px; } }
+@keyframes carr-gira { to { transform: rotate(360deg); } }
+@keyframes carr-goku { from { left: 105%; } to { left: -40%; } }
+@keyframes carr-flutua { 0%, 100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-10px) rotate(1deg); } }
+@keyframes carr-nuvem { from { left: -30%; } to { left: 110%; } }
+@keyframes carr-vento { from { left: -20%; } to { left: 120%; } }
+@keyframes carr-moeda { to { transform: rotateY(360deg); } }
+
+/* quem prefere menos movimento vê tudo parado */
+@media (prefers-reduced-motion: reduce) {
+  .carr-palco * { animation: none !important; }
+  .carr-carro { left: calc(50% - 100px); }
+  .carr-goku { left: calc(50% - 70px); }
+  .carr-vento { display: none; }
+}

@@ -5,6 +5,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
 import { CURRICULOS } from '../config/curriculo'
 import { useIdioma } from '../idioma/contexto'
+import CarregandoTema from './CarregandoTema'
 import './VisualizadorCurriculo.css'
 
 // O worker do pdf.js precisa ser configurado neste mesmo módulo, onde o <Document> é usado
@@ -95,7 +96,7 @@ export default function VisualizadorCurriculo() {
           <Document
             key={arquivo}
             file={arquivo}
-            loading={<p className="cv-status" role="status">{t('curriculo.carregando')}</p>}
+            loading={<CarregandoTema />}
             error={
               <p className="cv-status erro" role="alert">
                 {t('curriculo.erro')}{' '}
