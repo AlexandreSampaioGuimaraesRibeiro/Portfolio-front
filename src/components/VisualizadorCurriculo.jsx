@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { IconDownload, IconExternalLink, IconZoomIn, IconZoomOut } from '@tabler/icons-react'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
@@ -22,6 +22,53 @@ const LINGUAS = [
   { id: 'en', rotulo: 'EN', nome: 'English' },
 ]
 
+// Por que a tela piscava antes:
+//  O react-pdf 11 usa Suspense por padrão. Enquanto o PDF carregava, o <Document> "suspendia" e o
+//  React trocava o visualizador INTEIRO (barra incluída) pelo fallback do <Suspense> do modal.
+//  Escondido, o corpo ficava com largura 0, o ResizeObserver avisava, o <Document> era desmontado,
+//  a barra voltava, o <Document> montava e suspendia de novo... um vai e volta até o PDF chegar.
+//  Depois ainda vinha o "Loading page…" de cada página e o canvas em branco a cada zoom.
+//
+// Agora:
+//  - suspense={false}: o carregamento fica por nossa conta, sem trocar a árvore de lugar.
+//  - As páginas são desenhadas por baixo de uma cobertura com o carregamento do tema, e só
+//    aparecem (com um fade) quando todas estão prontas.
+//  - Largura 0 é ignorada e a barra de rolagem tem espaço reservado, então a largura não oscila.
+//  - Ao mudar o zoom, a imagem anterior fica esticada por cima até o novo desenho terminar.
+//  - Cada idioma aberto continua montado (escondido), então trocar PT/EN de novo é instantâneo.
+
+function Pagina({ numero, largura, aoDesenhar }) {
+  const canvas = useRef(null)
+  const [foto, setFoto] = useState(null) // imagem do último desenho, para cobrir o redesenho
+  const [larguraDesenhada, setLarguraDesenhada] = useState(null)
+
+  useEffect(() => () => foto && URL.revokeObjectURL(foto), [foto])
+
+  const desenhou = () => {
+    setLarguraDesenhada(largura)
+    aoDesenhar(numero)
+    canvas.current?.toBlob((blob) => blob && setFoto(URL.createObjectURL(blob)), 'image/jpeg', 0.85)
+  }
+
+  const redesenhando = foto && larguraDesenhada !== largura
+
+  return (
+    <div className="cv-folha">
+      <Page
+        pageNumber={numero}
+        width={largura}
+        canvasRef={canvas}
+        className="cv-pagina"
+        loading={null}
+        suspense={false}
+        onRenderSuccess={desenhou}
+        onRenderError={() => aoDesenhar(numero)}
+      />
+      {redesenhando && <img className="cv-foto" src={foto} alt="" aria-hidden="true" />}
+    </div>
+  )
+}
+
 export default function VisualizadorCurriculo() {
   const { idioma, t } = useIdioma()
 
@@ -31,15 +78,44 @@ export default function VisualizadorCurriculo() {
   const { arquivo, nome } = CURRICULOS[lingua]
 
   const [zoom, setZoom] = useState(1)
-  const [paginas, setPaginas] = useState({}) // número de páginas de cada arquivo
   const [largura, setLargura] = useState(0)
+  // estado de cada arquivo: { total, desenhadas: [], erro, progresso }
+  const [docs, setDocs] = useState({})
+  const [abertos, setAbertos] = useState([arquivo]) // arquivos já abertos ficam montados
+  if (!abertos.includes(arquivo)) setAbertos([...abertos, arquivo])
+
+  const [jaMostrou, setJaMostrou] = useState(false) // depois da 1ª vez a barra fica livre
   const corpo = useRef(null)
+  const barra = useRef(null)
+  const [alturaBarra, setAlturaBarra] = useState(0)
 
   // largura disponível para as páginas (acompanha o tamanho da janela)
-  useEffect(() => {
-    const observador = new ResizeObserver(([entrada]) => setLargura(entrada.contentRect.width))
-    observador.observe(corpo.current)
+  useLayoutEffect(() => {
+    const medir = (w) => {
+      const nova = Math.floor(w)
+      if (nova > 0) setLargura((atual) => (Math.abs(atual - nova) >= 2 ? nova : atual))
+    }
+    const el = corpo.current
+    const estilo = getComputedStyle(el)
+    medir(el.clientWidth - parseFloat(estilo.paddingLeft) - parseFloat(estilo.paddingRight))
+    const observador = new ResizeObserver(([entrada]) => medir(entrada.contentRect.width))
+    observador.observe(el)
     return () => observador.disconnect()
+  }, [])
+
+  useLayoutEffect(() => {
+    const el = barra.current
+    setAlturaBarra(el.offsetHeight)
+    const observador = new ResizeObserver(() => setAlturaBarra(el.offsetHeight))
+    observador.observe(el)
+    return () => observador.disconnect()
+  }, [])
+
+  const atualizar = useCallback((arq, mudar) => {
+    setDocs((atual) => {
+      const antes = atual[arq] ?? { total: 0, desenhadas: [], erro: false, progresso: null }
+      return { ...atual, [arq]: { ...antes, ...mudar(antes) } }
+    })
   }, [])
 
   const escolher = (nova) => {
@@ -48,12 +124,26 @@ export default function VisualizadorCurriculo() {
   }
   const mudarZoom = (delta) => setZoom((z) => Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, +(z + delta).toFixed(2))))
 
-  const larguraPagina = Math.max(Math.min(largura, LARGURA_MAX), 240) * zoom
-  const totalPaginas = paginas[arquivo] ?? 0
+  const larguraPagina = Math.round(Math.max(Math.min(largura, LARGURA_MAX), 240) * zoom)
+
+  const atual = docs[arquivo]
+  const pronto = Boolean(atual && (atual.erro || (atual.total > 0 && atual.desenhadas.length >= atual.total)))
+
+  // a cobertura some com um fade e só depois sai da tela (a animação para de rodar)
+  const [coberturaMontada, setCoberturaMontada] = useState(true)
+  if (!pronto && !coberturaMontada) setCoberturaMontada(true)
+  useEffect(() => {
+    if (!pronto) return
+    const id = setTimeout(() => {
+      setCoberturaMontada(false)
+      setJaMostrou(true)
+    }, 450)
+    return () => clearTimeout(id)
+  }, [pronto])
 
   return (
-    <div className="cv">
-      <div className="cv-barra">
+    <div className="cv" aria-busy={!pronto}>
+      <div className="cv-barra" ref={barra}>
         <div className="cv-grupo" role="group" aria-label={t('curriculo.idioma')}>
           {LINGUAS.map(({ id, rotulo, nome: nomeLingua }) => (
             <button
@@ -92,24 +182,50 @@ export default function VisualizadorCurriculo() {
       </div>
 
       <div className="cv-corpo" ref={corpo}>
-        {largura > 0 && (
-          <Document
-            key={arquivo}
-            file={arquivo}
-            loading={<CarregandoTema />}
-            error={
-              <p className="cv-status erro" role="alert">
-                {t('curriculo.erro')}{' '}
-                <a href={arquivo} target="_blank" rel="noreferrer">{t('curriculo.novaAba')}</a>
-              </p>
-            }
-            onLoadSuccess={({ numPages }) => setPaginas((atual) => ({ ...atual, [arquivo]: numPages }))}
-          >
-            {Array.from({ length: totalPaginas }, (_, i) => (
-              <Page key={i + 1} pageNumber={i + 1} width={larguraPagina} className="cv-pagina" />
-            ))}
-          </Document>
-        )}
+        {largura > 0 &&
+          abertos.map((arq) => {
+            const info = docs[arq]
+            const total = info?.total ?? 0
+            return (
+              <div key={arq} className="cv-documento" hidden={arq !== arquivo}>
+                <Document
+                  file={arq}
+                  suspense={false}
+                  loading={null}
+                  error={
+                    <p className="cv-status erro" role="alert">
+                      {t('curriculo.erro')}{' '}
+                      <a href={arq} target="_blank" rel="noreferrer">{t('curriculo.novaAba')}</a>
+                    </p>
+                  }
+                  onLoadProgress={({ loaded, total: bytes }) => bytes > 0 && atualizar(arq, () => ({ progresso: loaded / bytes }))}
+                  onLoadSuccess={({ numPages }) => atualizar(arq, () => ({ total: numPages, progresso: 1 }))}
+                  onLoadError={() => atualizar(arq, () => ({ erro: true }))}
+                >
+                  {Array.from({ length: total }, (_, i) => (
+                    <Pagina
+                      key={i + 1}
+                      numero={i + 1}
+                      largura={larguraPagina}
+                      aoDesenhar={(n) =>
+                        atualizar(arq, (antes) => (antes.desenhadas.includes(n) ? {} : { desenhadas: [...antes.desenhadas, n] }))
+                      }
+                    />
+                  ))}
+                </Document>
+              </div>
+            )
+          })}
+      </div>
+
+      {/* Na primeira abertura cobre tudo (igual ao fallback do modal, então nada pula de lugar);
+          depois cobre só a área das páginas e deixa a barra livre. */}
+      <div
+        className={`cv-cobertura ${pronto ? 'saindo' : ''}`}
+        style={jaMostrou ? { top: alturaBarra } : undefined}
+        aria-hidden={pronto}
+      >
+        {coberturaMontada && <CarregandoTema progresso={atual?.progresso ?? null} />}
       </div>
     </div>
   )

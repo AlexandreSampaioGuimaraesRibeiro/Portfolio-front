@@ -25,7 +25,17 @@ export default function CurriculoModal({ aberto, aoFechar }) {
       padding={0}
       classNames={{ content: 'cv-modal', header: 'cv-modal-topo', title: 'cv-modal-titulo', body: 'cv-modal-corpo', close: 'cv-modal-fechar' }}
     >
-      <Suspense fallback={<CarregandoTema />}>
+      {/* O fallback ocupa exatamente o mesmo lugar da cobertura do visualizador: quando o
+          visualizador chega, o carregamento continua igual, sem piscar nem mudar de posição. */}
+      <Suspense
+        fallback={
+          <div className="cv">
+            <div className="cv-cobertura">
+              <CarregandoTema />
+            </div>
+          </div>
+        }
+      >
         <VisualizadorCurriculo />
       </Suspense>
     </Modal>

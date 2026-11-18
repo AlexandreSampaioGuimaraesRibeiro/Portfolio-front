@@ -1,7 +1,31 @@
-/* a janela é sólida (as superfícies do tema são translúcidas) */
-.cv-modal { background: var(--campo); color: var(--texto); border: 3px solid var(--borda); border-radius: 0; box-shadow: 8px 8px 0 var(--destaque); }
-.cv-modal-topo { background: var(--campo); border-bottom: 2px dashed var(--borda); padding: 12px 16px; }
+/* a janela é sólida (as superfícies do tema são translúcidas) e tem altura fixa: assim ela não
+   muda de tamanho (nem pula de lugar) enquanto o currículo carrega */
+.cv-modal.cv-modal { display: flex; flex-direction: column; height: calc(100dvh - var(--modal-y-offset, 5dvh) * 2); background: var(--campo); color: var(--texto); border: 3px solid var(--borda); border-radius: 0; box-shadow: 8px 8px 0 var(--destaque); overflow: hidden; }
+/* no celular a janela ocupa a tela inteira */
+.cv-modal.cv-modal[data-full-screen] { height: 100dvh; border: 0; box-shadow: none; }
+.cv-modal-topo { flex: none; background: var(--campo); border-bottom: 2px dashed var(--borda); padding: 12px 16px; }
 .cv-modal-titulo { font: 700 14px var(--fonte-display); text-transform: uppercase; color: var(--destaque-forte); }
-.cv-modal-corpo { padding: 0; }
+.cv-modal-corpo.cv-modal-corpo { flex: 1; min-height: 0; padding: 0; display: flex; flex-direction: column; }
 .cv-modal-fechar { color: var(--texto); border-radius: 0; }
 .cv-modal-fechar:hover { background: color-mix(in srgb, var(--destaque) 20%, transparent); }
+
+/* layout do visualizador (fica aqui para o fallback do lazy já ter o mesmo layout) */
+.cv { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.cv-barra { flex: none; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-bottom: 2px dashed var(--borda); }
+.cv-grupo { display: inline-flex; align-items: center; gap: 8px; }
+.cv-corpo {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-gutter: stable; /* a barra de rolagem não muda a largura quando aparece */
+  overscroll-behavior: contain;
+  padding: 16px;
+  background: color-mix(in srgb, var(--borda) 45%, var(--campo));
+}
+
+/* cobertura com o carregamento do tema: as páginas são desenhadas por baixo dela */
+.cv-cobertura { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; overflow: auto; background: var(--campo); }
+.cv-cobertura.saindo { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .35s ease, visibility 0s linear .35s; }
+@media (prefers-reduced-motion: reduce) {
+  .cv-cobertura.saindo { transition: none; }
+}
