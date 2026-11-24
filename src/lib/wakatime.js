@@ -53,6 +53,35 @@ export async function buscarEstatisticas() {
   return cache
 }
 
+/* ---------- "Codando agora" ---------- */
+// Sem cache: a página pergunta de novo a cada minuto
+let pedidoAgora = null
+
+// Resultado: { status: 'ok', dados } | { status: 'indisponivel' } | { status: 'erro' }
+export function buscarCodandoAgora() {
+  // Se dois lugares pedirem ao mesmo tempo, fazemos uma chamada só
+  if (pedidoAgora) return pedidoAgora
+
+  pedidoAgora = (async () => {
+    try {
+      const resposta = await fetch('/api/codando', { headers: { Accept: 'application/json' } })
+      const tipo = resposta.headers.get('content-type') ?? ''
+      // Sem token ou sem a rota (site estático): o cartão simplesmente não aparece
+      if (!tipo.includes('json') || resposta.status === 503) return { status: 'indisponivel' }
+      if (!resposta.ok) return { status: 'erro' }
+
+      const dados = await resposta.json()
+      return typeof dados?.active === 'boolean' ? { status: 'ok', dados } : { status: 'erro' }
+    } catch {
+      return { status: 'erro' } // rede fora
+    } finally {
+      pedidoAgora = null // libera para a próxima rodada
+    }
+  })()
+
+  return pedidoAgora
+}
+
 /* ---------- formatação em português ---------- */
 export function formatarDuracao(segundos) {
   const minutos = Math.round(segundos / 60)
@@ -81,3 +110,15 @@ const INTERVALOS = {
 // Em inglês, usa o texto original do WakaTime (ex.: "Last 7 Days")
 export const traduzirIntervalo = (texto, idioma = 'pt') =>
   idioma === 'en' ? texto : INTERVALOS[texto.toLowerCase()] ?? texto
+
+// "há 3 min" / "3 min ago": o texto vem da tradução
+export function formatarHa(instante, t, agora = Date.now()) {
+  const min = Math.floor((agora - instante) / 60000)
+  if (min < 1) return t('codando.agoraMesmo')
+  if (min < 60) return t('codando.haMin', { n: min })
+  return t('codando.haH', { n: Math.floor(min / 60) })
+}
+
+// "06:56" em português, "6:56 AM" em inglês
+export const formatarHora = (instante, locale = 'pt-BR') =>
+  new Date(instante).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })

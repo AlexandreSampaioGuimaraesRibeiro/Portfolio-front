@@ -1,8 +1,9 @@
 import dns from 'node:dns'
 import tls from 'node:tls'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import { WAKATIME } from './src/config/wakatime.js'
+import { buscarCodando } from './api/_codando.js'
 
 // O WakaTime não libera CORS: o navegador chama /api/wakatime/... e o servidor
 // local busca em wakatime.com/api/v1/users/<usuario>/... (API pública, sem chave).
@@ -64,7 +65,33 @@ function wakatimeLocal() {
   }
 }
 
+function codandoLocal(token) {
+  const middleware = async (req, res, next) => {
+    if (req.url.split('?')[0] !== '/api/codando') return next()
+    try {
+      const { status, corpo } = await buscarCodando(token)
+      res.statusCode = status
+      res.setHeader('Content-Type', 'application/json')
+      res.setHeader('Cache-Control', 'no-store')
+      res.end(JSON.stringify(corpo))
+    } catch (erro) {
+      console.error('[codando]', erro)
+      res.statusCode = 500
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify({ error: 'erro_interno' }))
+    }
+  }
+  return {
+    name: 'codando-local',
+    configureServer: (server) => { server.middlewares.use(middleware) },
+    configurePreviewServer: (server) => { server.middlewares.use(middleware) },
+  }
+}
+
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(), wakatimeLocal()], // mantenha os seus plugins como estão
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  return {
+  plugins: [react(), wakatimeLocal(), codandoLocal(env.WAKATIME_ACCESS_TOKEN)], // mantenha os seus plugins como estão
+  }
 })

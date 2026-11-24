@@ -5,6 +5,7 @@ import {
   formatarDataCompleta, formatarDuracao, formatarPercent, traduzirIntervalo, usuarioLimpo,
 } from '../lib/wakatime'
 import './WakaTimePainel.css'
+import CodandoAgora from './CodandoAgora'
 
 // Tradução + números e datas no formato do idioma atual
 function useFormato() {
@@ -60,7 +61,7 @@ function Moldura({ etiqueta, estado, children }) {
       <p className="waka-sub">
         {periodo} ·{' '}
         <a href={`https://wakatime.com/@${usuarioLimpo()}`} target="_blank" rel="noreferrer">
-          wakatime.com/@{usuarioLimpo()}
+          wakatime.com
         </a>
       </p>
       {dados.linguagens.length > 0 ? children(dados) : <p className="waka-status">{t('waka.semLinguagens')}</p>}
@@ -130,6 +131,7 @@ export function WakaGrade({ estado }) {
     <Moldura etiqueta="wakatime.grade" estado={estado}>
       {(dados) => (
         <>
+          <CodandoAgora />
           <Indicadores dados={dados} />
           <ul className="waka-grade">
             {limitar(dados.linguagens, 11, t).map((item, i) => (
