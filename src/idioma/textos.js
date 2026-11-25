@@ -31,6 +31,7 @@ export const TEXTOS = {
     idioma: { grupo: 'Idioma' },
     menu: {
       cargo: 'Estudante de Engenharia de Software',
+      proficao: 'Desenvolvedor Full Stack',
       titulo: 'Menu Principal',
       sub: 'Selecione seu próximo destino',
       navegar: 'Como navegar',
@@ -77,6 +78,8 @@ export const TEXTOS = {
         'Aplicação para organizar uma coleção de board games.',
         'App de autocontrole para apostas, com requisitos e fluxos modelados.',
         'Portfólio em tema de videogame, com menu navegável pelo teclado.',
+        'Pokédex para consultar pokémons, com front-end em React e back-end em Spring Boot.',
+        'Sistema web de aluguel de carros, desenvolvido em laboratório de faculdade com Spring Boot e React.'
       ],
     },
     habilidades: {
@@ -214,6 +217,7 @@ export const TEXTOS = {
     idioma: { grupo: 'Language' },
     menu: {
       cargo: 'Software Engineering student',
+      proficao: 'Full Stack Developer',
       titulo: 'Main Menu',
       sub: 'Choose your next destination',
       navegar: 'How to navigate',
@@ -260,6 +264,8 @@ export const TEXTOS = {
         'App to organize a board game collection.',
         'Self-control app for betting, with modeled requirements and flows.',
         'Video game themed portfolio with a keyboard-navigable menu.',
+        'Pokédex to look up Pokémon, with a React front end and a Spring Boot back end.',
+        'Web car rental system, built in a university lab with Spring Boot and React.',
       ],
     },
     habilidades: {

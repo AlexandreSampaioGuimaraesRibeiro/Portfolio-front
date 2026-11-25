@@ -27,6 +27,7 @@ export default function MenuPrincipal({ onSelect }) {
   const foto = { claro: imagemPerfil_claro, galo: imagemPerfil_galo }[tema] ?? imagemPerfil_escuro
   const itens = t('menu.itens')
   const cargo = t('menu.cargo')
+  const proficao = t('menu.proficao')
 
   useAtalhosJogo({ onConfirmar: () => onSelect(IDS[ativo]) })
 
@@ -59,7 +60,7 @@ export default function MenuPrincipal({ onSelect }) {
         </div>
       </Group>
 
-      <Text className="menu-chamada">{perfil.nome} // {cargo}</Text>
+      <Text className="menu-chamada">{perfil.nome} // {proficao}</Text>
       <Title order={1} className="menu-titulo">{t('menu.titulo')}</Title>
       <Text size="xs" c="dimmed" className="menu-sub">{t('menu.sub')}</Text>
 
