@@ -53,7 +53,7 @@ export default function CodandoAgora() {
   }
 
   /* ---------- Codando: cartão completo ---------- */
-  const { cor } = infoLinguagem(last.language)
+  const { cor } = infoLinguagem(last.language ?? '')
   const sessaoSegundos = (last.at - last.sessionStart) / 1000
 
   return (
